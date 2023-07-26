@@ -1,10 +1,24 @@
 /* @import './base.css'; */
 :root,
 html {
-  --container-width: 1080px;
+  --container-width: 1200px;
   background-color: #f4f4f5;
   min-width: var(--container-width);
-  min-height: 100vh;
+  --footer-height: 80px;
+  /* min-height: 100vh; */
+}
+.text-line-1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.text-line-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
 }
 /* #app {
   display: flex;

@@ -14,14 +14,15 @@ export default {
   setup(props) {
     const reactiveProps = reactive(props);
     const vditor = ref();
-    // let flag = false;
-    onMounted(() => {
-      init(reactiveProps.value)
-    })
-
+    const loading = ref(false);
     const init = (value) => {
+      loading.value = true;
       vditor.value = new Vditor('vditor',{
         toolbar: [],
+        outline: {
+          enable: true,
+          position: "right"
+        },
         toolbarConfig: {
           hide: true,
           pin: true
@@ -37,6 +38,7 @@ export default {
         value,
         after: () => {
           vditor.value.disabled();
+          loading.value = false;
         }
       })
     }
@@ -45,19 +47,37 @@ export default {
       init(value)
     })
     return {
-      reactiveProps
+      reactiveProps,
+      loading
     }
   }
 }
 </script>
 
 <template>
-  <div id="vditor"></div>
+  <div v-loading="loading" id="vditor"></div>
 </template>
 
 <style scoped>
+#vditor {
+  border-radius: 0;
+  border-color: #EBEEF5;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  min-height: 800px;
+}
+::v-deep .vditor-reset {
+  padding-top: 32px !important;
+  padding-bottom: 96px !important;
+}
 ::v-deep .vditor-ir pre.vditor-reset[contenteditable="false"] {
   opacity: 1;
   cursor: auto;
+}
+::v-deep .vditor-toolbar{
+  display: none;
+}
+::v-deep .vditor-content .vditor-outline {
+  width: 180px;
+  border-color: #EBEEF5;
 }
 </style>

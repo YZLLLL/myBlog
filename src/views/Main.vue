@@ -1,61 +1,45 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-const router = useRouter();
-// 重写window.open
-const open = window.open;
+// import HelloWorld from './components/HelloWorld.vue'
+import Menu from './Menu.vue'
+import RightPanel from './RightPanel.vue'
+import Footer from './Footer.vue'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { getGroups } from "../api/group";
+import processMenu from "../utils/processMenu"
+import { ref, onMounted, computed } from "vue"
+// todo
+/**
+ * 图片 icon introduction
+ * 首页
+ * 侧边栏
+ * 评论
+ * 备案
+ */
 
-window.open = (url, ...args) => {
-  return open(router.resolve(`/open?target=${url}`).href, ...args)
+const menus = ref();
+const loading = ref(false);
+onMounted(() => {
+  loading.value = true
+  getGroups().then(({data}) => {
+    menus.value = processMenu(data)
+  }).finally(() => {
+    loading.value = false
+  })
+})
+const getHome = () => {
+  router.push({ path: '/' })
 }
+const route = useRoute();
 
-// window.addEventListener('copy', (e) => {
-//   e.preventDefault();
-//   console.log(1)
-//   let text = window.getSelection()?.toString();
-//   navigator.clipboard.writeText(`${text}
-//   版权声明：本文为xxx的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-//   原文链接：https://xxx`);
-// });
-// // import HelloWorld from './components/HelloWorld.vue'
-// import Menu from './views/Menu.vue'
-// import RightPanel from './views/RightPanel.vue'
-// import Footer from './views/Footer.vue'
-// import { ArrowRight } from '@element-plus/icons-vue'
-// import { getGroups } from "./api/group";
-// import processMenu from "./utils/processMenu"
-// import { ref, onMounted, computed } from "vue"
-// // todo
-// /**
-//  * 图片 icon introduction
-//  * 首页
-//  * 侧边栏
-//  * 评论
-//  * 备案
-//  */
-
-// const menus = ref();
-// const loading = ref(false);
-// onMounted(() => {
-//   loading.value = true
-//   getGroups().then(({data}) => {
-//     menus.value = processMenu(data)
-//   }).finally(() => {
-//     loading.value = false
-//   })
-// })
-// const getHome = () => {
-//   router.push({ path: '/' })
-// }
-// const route = useRoute();
-// console.log(route)
-// const router = useRouter();
-// const showArticle = computed(() => {
-//   return route.path.indexOf("/article") !== -1
-// })
+const router = useRouter();
+const showArticle = computed(() => {
+  return route.path.indexOf("/article") !== -1
+})
 </script>
 
 <template>
-  <!-- <div class="main">
+  <div class="main">
     <div class="nav">
       <div class="nav-text">
         <span class="nav-title">个人博客</span>
@@ -90,8 +74,8 @@ window.open = (url, ...args) => {
   </div>
 
   <el-backtop :right="100" :bottom="100" />
-  <Footer /> -->
-  <RouterView />
+  <Footer />
+  
 </template>
 
 <style scoped>

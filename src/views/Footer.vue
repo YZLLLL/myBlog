@@ -13,8 +13,8 @@ export default {
 
 <style scoped>
 .footer {
-  height: 80px;
-  background-color: #73767a;
+  height: var(--footer-height);
+  background-color: #303133;
   display: flex;
   flex-direction: column;
   align-items: center;

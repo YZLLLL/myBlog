@@ -2,12 +2,13 @@
   <div class="article">
     <Editor v-loading="loading" :value="content" />
     <div class="other-info">
-      <span>{{`阅读量：${article.info.pv} `}}</span><el-icon class="view"><View /></el-icon><span class="updat-time">{{`更新时间：${formatTime(article.info.update_time)}`}}</span>
+      <span class="updat-time">{{`更新时间：${formatTime(article.info.update_time)}`}}</span>
+      <span>{{`阅读量：${article.info.pv} `}}</span><el-icon class="view"><View /></el-icon>
     </div>
 
     <div class="like">
-      <el-button type="danger" v-if="second!==s" :disabled="true" size="large" @click="doLike">{{`${second}秒后可再次点击`}}</el-button>
-      <el-button type="danger" v-else :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
+      <!-- <el-button type="danger" v-if="second!==s" :disabled="true" size="large" @click="doLike">{{`${second}秒后可再次点击`}}</el-button> -->
+      <el-button type="danger" :disabled="disabled" :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
     </div>
     
     <div class="other-article">
@@ -36,21 +37,14 @@ const article = reactive({
 const loading = ref(false);
 
 const likeLoading = ref(false);
-let s = ref(60);
-const second = ref(s.value);
+let disabled = ref(false);
 const doLike = () => {
   likeLoading.value = true
   like({id: article.info.id}).then(() => {
     article.info.like_count++;
   }).finally(() => {
     likeLoading.value = false;
-    let time = setInterval(() => {
-      second.value--;
-      if(second.value == 0) {
-        second.value = s.value;
-        clearInterval(time)
-      }
-    })
+    disabled.value = true;
   })
 }
 
@@ -58,7 +52,6 @@ const doLike = () => {
 
 
 const route = useRoute();
-console.log(route.query)
 
 onMounted(() => {
   getArticleInfo(route.query.id);
@@ -68,7 +61,6 @@ const getArticleInfo = (id) => {
   loading.value = true;
   getArticle(id).then(({data})=>{
     article.info = data[0];
-    console.log(article.info)
   }).finally(() => {
     loading.value = false
   })
@@ -79,6 +71,7 @@ const content = computed(() => {
 })
 
 watch(() => route.query, (value) => {
+  disabled.value = false;
   getArticleInfo(value.id);
 })
 </script>
@@ -92,18 +85,17 @@ watch(() => route.query, (value) => {
   display: flex;
   align-items: center;
   opacity: 0.6;
-  right: 16px;
+  left: 16px;
   font-size: 13px;
   line-height: 14px;
   top: 16px;
   z-index: 1;
 }
 .view {
-  margin-right: 32px;
   margin-left: 10px;
 }
 .updat-time {
-
+  margin-right: 32px;
 }
 .other-article {
   opacity: 0.6;
