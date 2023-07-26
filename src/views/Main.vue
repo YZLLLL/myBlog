@@ -8,6 +8,8 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { getGroups } from "../api/group";
 import processMenu from "../utils/processMenu"
 import { ref, onMounted, computed } from "vue"
+import { useGroupStore } from "../stores/group"
+const group = useGroupStore();
 // todo
 /**
  * 图片 icon introduction
@@ -22,17 +24,24 @@ const loading = ref(false);
 onMounted(() => {
   loading.value = true
   getGroups().then(({data}) => {
-    menus.value = processMenu(data)
+    menus.value = processMenu(data).sort((a,b) => a.id -b.id)
   }).finally(() => {
     loading.value = false
   })
 })
-const getHome = () => {
-  router.push({ path: '/' })
-}
 const route = useRoute();
 
 const router = useRouter();
+const goGroup = (item) => {
+  group.setGroup(item)
+  router.replace(`/group?id=${itemid}`)
+}
+const showBreadcrumb = computed(() => {
+  return route.path.indexOf("/home") === -1
+})
+const showGroup = computed(() => {
+  return route.path.indexOf("/group") !== -1
+})
 const showArticle = computed(() => {
   return route.path.indexOf("/article") !== -1
 })
@@ -49,17 +58,19 @@ const showArticle = computed(() => {
 
     <div class="container" v-loading="loading">
       <el-menu background-color="#f4f4f5" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
-        <el-menu-item @click="getHome" :index="123">
-          <i class=""></i>
-          <span>首页</span>
-        </el-menu-item>
         <Menu :menu-items="menus" />
       </el-menu>
 
-      <el-breadcrumb class="breadcrumb" :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb v-if="showBreadcrumb" class="breadcrumb" :separator-icon="ArrowRight">
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item @click="goGroup(group.group)" v-if="(showGroup||showArticle)&&group.group.title">{{ group.group.title }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
       </el-breadcrumb>
+      <!-- <el-page-header class="breadcrumb" @back="goBack">
+        <template #content>
+          <span class="text-large font-600 mr-3"> 文章详情 </span>
+        </template>
+      </el-page-header> -->
 
       <div class="main-container">
         <div id="container">

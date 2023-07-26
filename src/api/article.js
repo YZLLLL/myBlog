@@ -17,6 +17,16 @@ export function getHotArticle(params) {
   });
 }
 
+// 获取最新的文章
+// params:{ limit }
+export function getLatestArtcile(params) {
+  return request({
+    url: `/article/latest`,
+    method: "GET",
+    params,
+  });
+}
+
 // 点赞
 export function like(data) {
   return request({

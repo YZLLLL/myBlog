@@ -24,12 +24,12 @@ window.open = (url, ...args) => {
 // import { getGroups } from "./api/group";
 // import processMenu from "./utils/processMenu"
 // import { ref, onMounted, computed } from "vue"
+
 // // todo
 // /**
 //  * 图片 icon introduction
-//  * 首页
-//  * 侧边栏
 //  * 评论
+//  * 部署
 //  * 备案
 //  */
 

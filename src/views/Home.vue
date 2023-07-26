@@ -1,7 +1,14 @@
 <template>
+
+  <el-carousel class="carousel" :interval="10000" type="card" height="240px">
+    <el-carousel-item class="carousel-item" v-for="item in images" :key="item.id">
+      <img class="carousel-item-image" :src="item.path" alt="">
+    </el-carousel-item>
+  </el-carousel>
+
   <div class="list-container" v-loading="loading">
     <div class="article-item" @click="goArticle(item)" v-for="item in articles" :key="item.id">
-      <img class="cover" :src="item.cover || 'https://fbimg.fangxinxue.net/plan/202108/27/163006392734634.jpeg'" alt="" />
+      <img class="cover" :src="item.cover" alt="" />
       <div class="text">
         <div class="title">{{ item.title }}</div>
         <div class="intro text-line-2">{{ item.introduction }}</div>
@@ -10,57 +17,47 @@
     
     <el-empty v-if="articles&&articles.length==0" description="空空如也~" />
   </div>
-  <!-- 当total为0时，page始终为1 -->
-  <el-pagination style="margin-bottom: 16px" :current-page="page" @current-change="getCurrentPage" :page-size="size" background layout="prev, pager, next" :total="total" />
 </template>
 
 <script setup>
-import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, watch, nextTick  } from "vue"
-import { getArticles } from "../api/group"
-
-const route = useRoute();
-const page = ref(1);
-const size = ref(5);
-const total = ref(0);
-const articles = ref([]);
-// const showPagination = ref(false);
-
-onMounted(() => {
-  getPageList(route.query.id);
-})
+import { onMounted, ref } from "vue"
+import { useRouter } from "vue-router";
+import { getLatestArtcile } from "../api/article"
+import View from "../assets/images/view.jpg"
+import Tixi from "../assets/images/tixi.png"
+import DN from "../assets/images/dianao.webp"
+import Rumen from "../assets/images/rumen.jpg"
+const images = [{
+  id: 1,
+  path: View
+}, {
+  id: 2,
+  path: Tixi
+}, {
+  id: 3,
+  path: DN
+}, {
+  id: 4,
+  path: Rumen
+}]
 
 const loading = ref(false);
-const getPageList = (groupId) => {
+const articles = ref([]);
+onMounted(() => {
   loading.value = true;
-  getArticles({
-    page: page.value,
-    limit: size.value,
-    groupId
-  }).then(({data}) => {
-    total.value = data.total;
-    articles.value = data.articles;
-    // page.value = page.value;
+  getLatestArtcile({ limit: 10 }).then(({data}) => {
+    articles.value = data
   }).finally(() => {
     loading.value = false;
-  })
-}
-
-const getCurrentPage = (newPage) => {
-  page.value = newPage;
-  // router.replace(`/group?id=${route.query.id}&page=${newPage}`)
-  getPageList(route.query.id)
-}
-
+  });
+})
+getLatestArtcile({ limit: 10 }).then(({data}) => {
+  articles.value = data
+});
 const router = useRouter();
 const goArticle = (item) => {
   router.push(`/article?id=${item.id}`)
 }
-
-
-watch(()=>route.query.id, (id) => {
-  getPageList(id);
-})
 </script>
 
 <style scoped>
@@ -112,5 +109,17 @@ watch(()=>route.query.id, (id) => {
   opacity: 0.6;
   line-height: 24px;
 }
-
+.carousel {
+  margin: 20px 0;
+}
+.carousel-item {
+  background-color: #999;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.carousel-item-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 </style>
