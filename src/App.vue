@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+
 const router = useRouter();
 // 重写window.open
 const open = window.open;
