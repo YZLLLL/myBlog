@@ -8,11 +8,13 @@
     <div class="tags">
       标签：<el-tag class="tag" type="success" effect="dark" v-show="item" v-for="(item,index) in tags" :key="index">{{ item }}</el-tag>
     </div>
-    <Comment :id="route.query.id" />
+    
     <div class="like">
       <!-- <el-button type="danger" v-if="second!==s" :disabled="true" size="large" @click="doLike">{{`${second}秒后可再次点击`}}</el-button> -->
       <el-button type="danger" :disabled="disabled" :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
     </div>
+    
+    <Comment :id="route.query.id" />
     
     <div class="other-article">
       <div class="other-article-item">

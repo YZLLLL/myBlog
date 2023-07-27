@@ -2,6 +2,7 @@
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 // import HelloWorld from './components/HelloWorld.vue'
 import Menu from './Menu.vue'
+import { Search } from '@element-plus/icons-vue'
 import RightPanel from './RightPanel.vue'
 import Footer from './Footer.vue'
 import { ArrowRight } from '@element-plus/icons-vue'
@@ -45,6 +46,12 @@ const showGroup = computed(() => {
 const showArticle = computed(() => {
   return route.path.indexOf("/article") !== -1
 })
+
+
+const searchStr = ref('');
+function onSearch() {
+  router.push(`/search?s=${searchStr.value}`)
+}
 </script>
 
 <template>
@@ -57,9 +64,21 @@ const showArticle = computed(() => {
     </div>
 
     <div class="container" v-loading="loading">
-      <el-menu background-color="#f4f4f5" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
-        <Menu :menu-items="menus" />
-      </el-menu>
+      <div class="menu-container">
+        <el-menu background-color="#f4f4f5" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
+          <Menu :menu-items="menus" />
+        </el-menu>
+        <el-input
+          v-model="searchStr"
+          class="search"
+          placeholder="请输入搜索内容"
+        >
+          <template #append>
+            <el-button @click="onSearch" :icon="Search" />
+          </template>
+        </el-input>
+      </div>
+      
 
       <el-breadcrumb v-if="showBreadcrumb" class="breadcrumb" :separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -115,6 +134,16 @@ const showArticle = computed(() => {
   width: var(--container-width);
   /* display: flex; */
   margin: 0 auto;
+}
+.menu-container {
+  position: relative;
+}
+.search {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 240px;
 }
 .main-container {
   /* flex: 1; */

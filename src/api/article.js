@@ -35,3 +35,12 @@ export function like(data) {
     data,
   });
 }
+
+// 搜索文章
+export function search(params) {
+  return request({
+    url: `/article/search`,
+    method: "GET",
+    params,
+  });
+}
