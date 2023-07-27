@@ -6,9 +6,9 @@
       <span>{{`阅读量：${article.info.pv} `}}</span><el-icon class="view"><View /></el-icon>
     </div>
     <div class="tags">
-      标签：<el-tag class="tag" type="success" effect="dark" v-for="(item,index) in tags" :key="index">{{ item }}</el-tag>
+      标签：<el-tag class="tag" type="success" effect="dark" v-show="item" v-for="(item,index) in tags" :key="index">{{ item }}</el-tag>
     </div>
-
+    <Comment :id="route.query.id" />
     <div class="like">
       <!-- <el-button type="danger" v-if="second!==s" :disabled="true" size="large" @click="doLike">{{`${second}秒后可再次点击`}}</el-button> -->
       <el-button type="danger" :disabled="disabled" :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
@@ -28,6 +28,7 @@
 
 <script setup>
 import Editor from "../components/Editor.vue";
+import Comment from "../components/comment/index.vue"
 import { useRoute, useRouter } from "vue-router"
 import { ref, onMounted, reactive, watchEffect, watch, computed, nextTick } from 'vue';
 import { getArticle, like } from "../api/article"
