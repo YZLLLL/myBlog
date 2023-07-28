@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddComment: typeof import('./src/components/comment/AddComment.vue')['default']
+    ArticleItem: typeof import('./src/components/ArticleItem.vue')['default']
+    ArticleList: typeof import('./src/components/ArticleList.vue')['default']
     Comment: typeof import('./src/components/comment/index.vue')['default']
     Editor: typeof import('./src/components/Editor.vue')['default']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
@@ -28,7 +30,6 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']

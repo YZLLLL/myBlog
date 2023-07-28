@@ -7,13 +7,8 @@
   </el-carousel>
 
   <div class="list-container" v-loading="loading">
-    <div class="article-item" @click="goArticle(item)" v-for="item in articles" :key="item.id">
-      <img class="cover" :src="item.cover" alt="" />
-      <div class="text">
-        <div class="title">{{ item.title }}</div>
-        <div class="intro text-line-2">{{ item.introduction }}</div>
-      </div>
-    </div>
+
+    <ArticleList :articles="articles" />
     
     <el-empty v-if="articles&&articles.length==0" description="空空如也~" />
   </div>
@@ -27,6 +22,8 @@ import View from "../assets/images/view.jpg"
 import Tixi from "../assets/images/tixi.png"
 import DN from "../assets/images/dianao.webp"
 import Rumen from "../assets/images/rumen.jpg"
+import ArticleList from "../components/ArticleList.vue"
+
 const images = [{
   id: 1,
   path: View
@@ -54,61 +51,10 @@ onMounted(() => {
 getLatestArtcile({ limit: 10 }).then(({data}) => {
   articles.value = data
 });
-const router = useRouter();
-const goArticle = (item) => {
-  router.push(`/article?id=${item.id}`)
-}
+
 </script>
 
 <style scoped>
-.list-container {
-  padding: 10px 20px;
-  margin-bottom: 20px;
-  /* min-height: calc(100vh - 60px + 60px + 80px); */
-  background-color: #fff;
-  border-radius: 20px;
-}
-.article-item {
-  display: flex;
-  align-items: center;
-  padding: 20px 20px;
-  border-bottom: 1px solid #c8c9cc;
-  cursor: pointer;
-  /* border-radius: 20px; */
-}
-.article-item:hover {
-  background-color: #f4f4f5;
-}
-.article-item:hover .text {
-  text-decoration: underline;
-  color: #409EFF;
-  transform: scale(1.01);
-}
-
-.article-item:last-of-type {
-  border-bottom: none;
-}
-.cover {
-  width: 80px;
-  height: 80px;
-  margin-right: 40px;
-  flex-shrink: 0;
-  border-radius: 5px;
-  object-fit: cover;
-}
-.text {
-  transition: all 0.1s;
-}
-.title {
-  font-size: 18px;
-  font-weight: 600;
-}
-.intro {
-  margin-top: 6px;
-  font-size: 14px;
-  opacity: 0.6;
-  line-height: 24px;
-}
 .carousel {
   margin: 20px 0;
 }

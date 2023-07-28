@@ -103,17 +103,20 @@ const goArticle = (id) => {
   width: 240px;
   flex-shrink: 0;
   margin-left: 20px;
-  
 }
 .container{
   position: sticky;
   top: 12px;
+  padding-bottom: 32px;
 }
 .panel-container {
   background-color: #fff;
   overflow: hidden;
   border-radius: 5px;
   margin-bottom: 32px;
+}
+.panel-container:last-of-type {
+  margin-bottom: 0px;
 }
 .panel-item {
   padding: 0 10px;
@@ -122,8 +125,9 @@ const goArticle = (id) => {
   font-size: 18px;
   font-weight: 600;
   line-height: 42px;
+  /* color: #fff; */
   color: #fff;
-  background-color: #606266;
+  background-color: #f89898;
 }
 .panel-list {
   margin: 6px 10px;

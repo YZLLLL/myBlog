@@ -46,6 +46,9 @@ const showGroup = computed(() => {
 const showArticle = computed(() => {
   return route.path.indexOf("/article") !== -1
 })
+const showSearch = computed(() => {
+  return route.path.indexOf("/search") !== -1
+})
 
 
 const searchStr = ref('');
@@ -65,7 +68,7 @@ function onSearch() {
 
     <div class="container" v-loading="loading">
       <div class="menu-container">
-        <el-menu background-color="#f4f4f5" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
+        <el-menu background-color="#FAFAFA" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
           <Menu :menu-items="menus" />
         </el-menu>
         <el-input
@@ -84,6 +87,7 @@ function onSearch() {
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item @click="goGroup(group.group)" v-if="(showGroup||showArticle)&&group.group.title">{{ group.group.title }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="showSearch">搜索结果</el-breadcrumb-item>
       </el-breadcrumb>
       <!-- <el-page-header class="breadcrumb" @back="goBack">
         <template #content>

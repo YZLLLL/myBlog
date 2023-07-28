@@ -20,7 +20,12 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  color: #fff;
+  color: #A8ABB2;
+  cursor: pointer;
+}
+.footer:hover {
+  color: #C0C4CC;
+  text-decoration: underline;
 }
 .website {
   margin-top: 10px;
