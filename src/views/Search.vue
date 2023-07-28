@@ -17,7 +17,7 @@
  * 完成这个组件
  * 将group组件的article列表项目拆成一个组件
  */
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { search } from "../api/article"
 import { useRoute } from "vue-router";
 import ArticleList from "../components/ArticleList.vue"

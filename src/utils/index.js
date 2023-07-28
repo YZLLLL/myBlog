@@ -78,3 +78,28 @@ function getFriendlyDate(timestamp) {
   }
   return formats[diffType].replace("%n%", diffValue);
 }
+
+// 防抖
+export function debounce(fn, duration = 500) {
+  let timeId;
+  return function (...args) {
+    clearTimeout(timeId);
+    timeId = setTimeout(() => {
+      fn.apply(this, args);
+    }, duration);
+  };
+}
+
+// 节流
+// 定时器方式
+export function throttle(fn, duration = 500) {
+  let timeId;
+  return function (...args) {
+    if (!timeId) {
+      timeId = setTimeout(() => {
+        timeId = null;
+        fn.apply(this, args);
+      }, duration);
+    }
+  };
+}
