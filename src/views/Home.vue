@@ -15,8 +15,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
-import { useRouter } from "vue-router";
+import { onMounted, onUnmounted, ref } from "vue"
 import { getLatestArtcile } from "../api/article"
 import View from "../assets/images/view.jpg"
 import Tixi from "../assets/images/tixi.png"
@@ -41,20 +40,30 @@ const images = [{
 
 const loading = ref(false);
 const articles = ref([]);
+const total = ref(0);
 const page = ref(1);
+const hasNext = ref(true)
 
 onMounted(() => {
   getArtciles();
 
   window.addEventListener("scroll", scroll);
-  window.removeEventListener("scroll", scroll)
+  
 
+})
+onUnmounted(() => {
+  window.removeEventListener("scroll", scroll);
 })
 
 function getArtciles() {
+  if (!hasNext.value) {
+    return
+  }
   loading.value = true;
   getLatestArtcile({ page: page.value, limit: 10 }).then(({data}) => {
-    articles.value = data;
+    articles.value = articles.value.concat(data.articles);
+    total.value = data.total;
+    hasNext.value = data.total > articles.value.length;
     page.value++;
   }).finally(() => {
     loading.value = false;
@@ -69,6 +78,7 @@ const scroll = throttle(function(e) {
   // toFixed：把this.scrollTop转换为整数，兼容不同版本浏览器
   var distanceToBottom = document.documentElement.scrollHeight - window.innerHeight - window.pageYOffset;
   if (distanceToBottom < h) {
+    console.log(1)
     getArtciles();
   }
 })

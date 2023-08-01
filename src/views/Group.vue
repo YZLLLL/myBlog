@@ -23,14 +23,14 @@ import ArticleList from "../components/ArticleList.vue"
 
 const route = useRoute();
 const page = ref(1);
-const size = ref(5);
+const size = ref(10);
 const total = ref(0);
 const articles = ref([]);
 // const showPagination = ref(false);
 
-onMounted(() => {
-  getPageList(route.query.id);
-})
+// onMounted(() => {
+//   getPageList(route.query.id);
+// })
 
 const loading = ref(false);
 const getPageList = (groupId) => {
@@ -55,8 +55,9 @@ const getCurrentPage = (newPage) => {
 }
 
 watch(()=>route.query.id, (id) => {
+  page.value = 1;
   getPageList(id);
-})
+}, {immediate:true})
 </script>
 
 <style scoped>

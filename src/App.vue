@@ -11,13 +11,6 @@ window.open = (url, ...args) => {
   return open(router.resolve(`/open?target=${url}`).href, ...args)
 }
 
-// // todo
-// /**
-//  * 图片 icon introduction
-//  * 评论
-//  * 部署
-//  * 备案
-//  */
 
 </script>
 

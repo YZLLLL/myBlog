@@ -13,10 +13,7 @@ import { useGroupStore } from "../stores/group"
 const group = useGroupStore();
 // todo
 /**
- * 图片 icon introduction
- * 首页
- * 侧边栏
- * 评论
+ * 图片 icon
  * 备案
  */
 

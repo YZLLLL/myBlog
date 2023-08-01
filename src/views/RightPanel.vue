@@ -113,7 +113,7 @@ const goArticle = (id) => {
   background-color: #fff;
   overflow: hidden;
   border-radius: 5px;
-  margin-bottom: 32px;
+  margin: 32px 0;
 }
 .panel-container:last-of-type {
   margin-bottom: 0px;
@@ -127,7 +127,7 @@ const goArticle = (id) => {
   line-height: 42px;
   /* color: #fff; */
   color: #fff;
-  background-color: #f89898;
+  background-color: #f99797;
 }
 .panel-list {
   margin: 6px 10px;

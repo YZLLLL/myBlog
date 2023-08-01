@@ -1,7 +1,5 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-// import jwt from 'jsonwebtoken';
-// todo 下载一个 浏览器端 解析jwt的库
 
 export const useUserStore = defineStore('group', () => {
   

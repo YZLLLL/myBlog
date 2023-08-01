@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddComment: typeof import('./src/components/comment/AddComment.vue')['default']
-    ArticleItem: typeof import('./src/components/ArticleItem.vue')['default']
     ArticleList: typeof import('./src/components/ArticleList.vue')['default']
     Comment: typeof import('./src/components/comment/index.vue')['default']
     Editor: typeof import('./src/components/Editor.vue')['default']
