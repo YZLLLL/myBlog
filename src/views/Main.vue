@@ -73,6 +73,7 @@ function onSearch() {
           v-model="searchStr"
           class="search"
           placeholder="请输入搜索内容"
+          @keyup.enter="onSearch"
         >
           <template #append>
             <el-button @click="onSearch" :icon="Search" />

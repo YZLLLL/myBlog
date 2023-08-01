@@ -54,6 +54,7 @@ watch(() => route.query.s,(s) => {
   font-style: italic;
   opacity: 0.6;
   font-size: 15px;
+  margin-bottom: 10px;
   letter-spacing: 0.1em;
 }
 </style>
