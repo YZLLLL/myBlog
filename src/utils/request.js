@@ -2,7 +2,7 @@ import axios from "axios";
 import { ElNotification } from "element-plus";
 
 const instance = axios.create({
-  baseURL: "http://127.0.0.1:3000", // api 的 base_url
+  baseURL: import.meta.env.VITE_APP_BASE_URL, // api 的 base_url
   timeout: 60 * 1000, // 请求超时时间
 });
 instance.interceptors.request.use((config) => {

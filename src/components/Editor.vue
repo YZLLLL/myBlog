@@ -31,7 +31,7 @@ export default {
           enable: false,
         },
         // 将一些cdn放到了本地 public下
-        cdn: "/public",
+        cdn: import.meta.env.VITE_APP_PUBLIC_JS,
         height: '100%',
         width: '100%',
         mode: 'ir',
