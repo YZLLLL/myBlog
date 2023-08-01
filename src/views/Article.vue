@@ -105,6 +105,7 @@ const content = computed(() => {
 })
 
 watch(() => route.query, (value) => {
+  if (value.id == undefined) return;
   disabled.value = false;
   getArticleInfo(value.id);
 })

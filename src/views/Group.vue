@@ -55,6 +55,7 @@ const getCurrentPage = (newPage) => {
 }
 
 watch(()=>route.query.id, (id) => {
+  if (id == undefined) return;
   page.value = 1;
   getPageList(id);
 }, {immediate:true})

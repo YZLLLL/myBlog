@@ -69,6 +69,7 @@ function onSearch() {
           <Menu :menu-items="menus" />
         </el-menu>
         <el-input
+          v-show="!loading"
           v-model="searchStr"
           class="search"
           placeholder="请输入搜索内容"
