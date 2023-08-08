@@ -50,6 +50,7 @@ const showSearch = computed(() => {
 
 const searchStr = ref('');
 function onSearch() {
+  if (!searchStr.value) return
   router.push(`/search?s=${searchStr.value}`)
 }
 
@@ -67,8 +68,8 @@ function goHome() {
       </div>
     </div>
 
-    <div class="container" v-loading="loading">
-      <div class="menu-container">
+    <div class="menu-container">
+      <div class="menu">
         <el-menu background-color="#FAFAFA" :default-active="activeMenu" mode="horizontal" class="recursive-menu">
           <Menu :menu-items="menus" />
         </el-menu>
@@ -84,6 +85,10 @@ function goHome() {
           </template>
         </el-input>
       </div>
+    </div>
+
+    <div class="container" v-loading="loading">
+
       
 
       <el-breadcrumb v-if="showBreadcrumb" class="breadcrumb" :separator-icon="ArrowRight">
@@ -143,8 +148,13 @@ function goHome() {
   /* display: flex; */
   margin: 0 auto;
 }
-.menu-container {
+.menu-container, .recursive-menu {
+  background-color: #fff !important;
+}
+.menu {
   position: relative;
+  width: var(--container-width);
+  margin: 0 auto;
 }
 .search {
   position: absolute;

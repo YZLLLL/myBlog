@@ -23,7 +23,7 @@ import ArticleList from "../components/ArticleList.vue"
 
 const route = useRoute();
 const page = ref(1);
-const size = ref(10);
+const size = ref(6);
 const total = ref(0);
 const articles = ref([]);
 // const showPagination = ref(false);

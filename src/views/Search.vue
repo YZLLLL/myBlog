@@ -19,7 +19,7 @@ import ArticleList from "../components/ArticleList.vue"
 
 const loading = ref(false);
 const page = ref(1);
-const size = 10;
+const size = 6;
 const total = ref(0);
 const articles = ref([])
 function searchArticles(keyword) {
