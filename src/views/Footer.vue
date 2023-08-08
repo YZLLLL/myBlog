@@ -1,13 +1,13 @@
 <template>
   <footer class="footer">
     <span>Copyright © 2023 叶子亮个人博客</span>
-    <span class="website">网站备案号：XXXXXXXX</span>
+    <span class="website" @click="goMiit">网站备案号：赣ICP备2023007562号-1</span>
   </footer>
 </template>
 
-<script>
-export default {
-
+<script setup>
+function goMiit() {
+  window.open("https://beian.miit.gov.cn")
 }
 </script>
 

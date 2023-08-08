@@ -52,13 +52,17 @@ const searchStr = ref('');
 function onSearch() {
   router.push(`/search?s=${searchStr.value}`)
 }
+
+function goHome() {
+  router.push(`/`)
+}
 </script>
 
 <template>
   <div class="main">
     <div class="nav">
-      <div class="nav-text">
-        <span class="nav-title">个人博客</span>
+      <div class="nav-text" @click="goHome">
+        <span class="nav-title">yeziliang</span>
         <span class="nav-motto">分享技术，记录点滴</span>
       </div>
     </div>
@@ -124,6 +128,7 @@ function onSearch() {
   color: #fff;
   width: var(--container-width);
   margin: 0 auto;
+  cursor: pointer;
 }
 .nav-title {
   font-size: 20px;
@@ -154,6 +159,7 @@ function onSearch() {
 }
 #container {
   flex: 1;
+  width: 940px;
 }
 .breadcrumb {
   margin: 16px 0;

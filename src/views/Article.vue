@@ -14,7 +14,7 @@
       <el-button type="danger" :disabled="disabled" :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
     </div>
     
-    <Comment :id="route.query.id" />
+    <!-- <Comment :id="route.query.id" /> -->
     
     <div class="other-article">
       <div class="other-article-item">
@@ -30,7 +30,7 @@
 
 <script setup>
 import Editor from "../components/Editor.vue";
-import Comment from "../components/comment/index.vue"
+// import Comment from "../components/comment/index.vue"
 import { useRoute, useRouter } from "vue-router"
 import { ref, onMounted, reactive, watchEffect, watch, computed, nextTick } from 'vue';
 import { getArticle, like } from "../api/article"
