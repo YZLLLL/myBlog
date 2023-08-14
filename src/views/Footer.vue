@@ -1,11 +1,15 @@
 <template>
   <footer class="footer">
     <span>Copyright © 2023 叶子亮个人博客</span>
-    <span class="website" @click="goMiit">网站备案号：赣ICP备2023007562号-1</span>
+    <span class="website" @click="goMiit">
+      <img :src="beian" alt="">
+      网站备案号：赣ICP备2023007562号-1
+    </span>
   </footer>
 </template>
 
 <script setup>
+import beian from "../assets/images/beian.png"
 function goMiit() {
   window.open("https://beian.miit.gov.cn")
 }
@@ -30,5 +34,7 @@ function goMiit() {
 .website {
   margin-top: 10px;
   font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 </style>

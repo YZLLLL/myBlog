@@ -30,6 +30,7 @@
           </div>
           <div class="pv"><el-icon style="margin-right: 4px;"><View /></el-icon>{{ item.pv }}</div>
         </div>
+        <el-empty :image-size="80" v-if="hotArticles&&hotArticles.length==0" description="空空如也~" />
       </div>
       <div class="panel-container">
         <div class="panel-item panel-title">友情链接</div>
