@@ -4,7 +4,7 @@ html {
   --container-width: 1200px;
   background-color: #f2f3f5;
   min-width: var(--container-width);
-  --footer-height: 80px;
+  --footer-height: 160px;
   /* min-height: 100vh; */
 }
 
