@@ -63,7 +63,7 @@ function goHome() {
   <div class="main">
     <div class="nav">
       <div class="nav-text" @click="goHome">
-        <span class="nav-title">yeziliang</span>
+        <span class="nav-title">YZL</span>
         <span class="nav-motto">分享技术，记录点滴</span>
       </div>
     </div>
