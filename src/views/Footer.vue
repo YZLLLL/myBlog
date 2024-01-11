@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <span>Copyright © 2023 叶子亮个人博客</span>
+    <span>Copyright © 2024 YZL个人博客</span>
     <span class="email">邮箱：1561213483@qq.com</span>
     <a class="a" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36112202000208" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">赣ICP备2023007562号-1</p></a>
     <span class="website" @click="goMiit">
