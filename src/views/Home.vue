@@ -1,10 +1,10 @@
 <template>
 
-  <el-carousel class="carousel" :interval="10000" type="card" height="240px">
+  <!-- <el-carousel class="carousel" :interval="10000" type="card" height="240px">
     <el-carousel-item class="carousel-item" v-for="item in images" :key="item.id">
       <img class="carousel-item-image" :src="item.path" alt="">
     </el-carousel-item>
-  </el-carousel>
+  </el-carousel> -->
 
   <div class="list-container" v-loading="loading">
 

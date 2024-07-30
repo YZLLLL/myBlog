@@ -1,11 +1,12 @@
 /* @import './base.css'; */
 :root,
 html {
-  --container-width: 1200px;
   background-color: #f2f3f5;
-  min-width: var(--container-width);
+  --bg-color: #ffffff;
+  --nav-height: 60px;
+  --sidebar-width: 180px;
   --footer-height: 160px;
-  /* min-height: 100vh; */
+  --border-color: #dcdfe6;
 }
 
 .list-container {

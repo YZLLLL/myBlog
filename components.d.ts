@@ -33,11 +33,13 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     IconZan: typeof import('./src/components/icons/IconZan.vue')['default']
+    PopSearch: typeof import('./src/components/PopSearch.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubComment: typeof import('./src/components/comment/SubComment.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     TopComment: typeof import('./src/components/comment/TopComment.vue')['default']
+    UserTool: typeof import('./src/components/UserTool.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
   export interface ComponentCustomProperties {
