@@ -114,6 +114,7 @@ watch(() => route.query, (value) => {
 <style scoped>
 .article {
   position: relative;
+  margin: 0 0.8rem;
 }
 .other-info {
   position: absolute;

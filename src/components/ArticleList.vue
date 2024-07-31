@@ -41,7 +41,7 @@ const goArticle = (item) => {
   /* border-radius: 20px; */
 }
 .article-item:hover {
-  background-color: #f4f4f5;
+  background-color: var(--hover-bg-color);
 }
 .article-item:hover .text {
   text-decoration: underline;

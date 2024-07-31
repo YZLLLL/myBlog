@@ -52,17 +52,18 @@
           </div>
         </template>
         <template v-else>
-          <div
+          <el-button link
             v-if="recordList.length === 0"
             style="
               display: flex;
               height: 100%;
+              width: 100%;
               align-items: center;
               justify-content: center;
             "
           >
             暂无搜索历史
-          </div>
+          </el-button>
           <div v-else class="search-history">
             <div>搜索历史</div>
             <ul class="record">
@@ -142,6 +143,7 @@ const resultList = ref<any[]>([]);
 let abortController: AbortController;
 const searchLoading = ref(false);
 const handleSearch = () => {
+  hoverId.value = undefined
   abortController?.abort("cancel");
   abortController = new AbortController();
   searchLoading.value = true;
@@ -207,8 +209,6 @@ const handleClick = (item: any) => {
 
 <style lang="scss" scoped>
 .mask {
-  --searchbox-background: rgba(255, 255, 255, 0.8);
-  --modal-background: #fafafa;
   --modal-width: 560px;
   --modal-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.04),
     0px 8px 20px rgba(0, 0, 0, 0.08);
@@ -225,6 +225,9 @@ const handleClick = (item: any) => {
     flex-direction: column;
     margin: 60px auto auto;
     width: var(--modal-width);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
     position: relative;
     .search-box {
       display: flex;
@@ -232,8 +235,11 @@ const handleClick = (item: any) => {
       .search-input {
         --el-component-size: 56px;
         flex: 1;
+        ::v-deep(.el-input__wrapper) {
         box-shadow: inset 0 0 0 2px #409eff;
-        background: #f2f2f2;
+
+        }
+        background: var(--bg-color);
         border-radius: 4px;
         font-size: 1.2rem;
       }
@@ -241,10 +247,12 @@ const handleClick = (item: any) => {
     .search-result-container {
       flex-grow: 1;
       overflow: auto;
+      min-height: 24vh;
     }
     .search-history {
       padding: 12px 12px 0;
       .record {
+        overflow: auto;
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -309,12 +317,10 @@ const handleClick = (item: any) => {
 @media (max-width: 750px) {
   .modal {
     position: fixed;
-    display: flex;
-    flex-direction: column;
     inset: 0;
     margin-top: 0 !important;
     height: 100vh;
-    max-height: 100vh;
+    max-height: 100vh !important;
     width: 100vw !important;
     .footer {
       display: none;

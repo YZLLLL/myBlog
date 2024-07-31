@@ -67,7 +67,7 @@ function goMiit() {
 .footer {
   margin-left: 0;
   height: var(--footer-height);
-  background-color: #f5f7fa;
+  background-color: var(--footer-bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -154,8 +154,7 @@ function goHome() {
   margin-left: 0;
   transition: margin-left 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   .breadcrumb {
-    height: 2rem;
-    line-height: 2rem;
+    line-height: 2.8rem;
     padding-left: 0.5rem;
   } 
 }

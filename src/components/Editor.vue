@@ -17,7 +17,7 @@ export default {
     const loading = ref(false);
     const init = (value) => {
       loading.value = true;
-      vditor.value = new Vditor('vditor',{
+      vditor.value = new Vditor('vditor', {
         toolbar: [],
         outline: {
           enable: true,
@@ -39,6 +39,22 @@ export default {
         after: () => {
           vditor.value.disabled();
           loading.value = false;
+          const outlines = document.querySelectorAll('.vditor-outline__content span[data-target-id]');
+          outlines.forEach((el) => {
+            const target = document.querySelector(`#${el.dataset.targetId}`)
+            el.addEventListener('click', (e) => {
+              e.stopPropagation()
+              window.scrollTo({
+                top: target.offsetTop,
+                behavior: 'smooth'
+              })
+            })
+          })
+          // outline.addEventListener('click', (e) => {
+          //   console.log(e)
+          // }, {
+          //   capture: true
+          // })
           window.scrollTo({
             top: 0,
             left: 0,
@@ -61,18 +77,20 @@ export default {
 
 <template>
   <div v-loading="loading" id="vditor"></div>
+  <div id="outline"></div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #vditor {
   border-radius: 0;
-  border-color: #EBEEF5;
+  border-color: transparent;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
   min-height: 800px;
+  overflow: hidden;
 }
 ::v-deep .vditor-reset {
-  padding-top: 32px !important;
-  padding-bottom: 96px !important;
+  padding: 32px 1rem 96px !important;
 }
 ::v-deep .vditor-ir pre.vditor-reset[contenteditable="false"] {
   opacity: 1;
@@ -82,7 +100,20 @@ export default {
   display: none;
 }
 ::v-deep .vditor-content .vditor-outline {
-  width: 180px;
+  width: 200px;
   border-color: #EBEEF5;
+  position: sticky;
+  top: 120px;
+  padding: 1.2rem;
+  .vditor-outline__title {
+    display: none;
+  }
+}
+</style>
+<style>
+@media screen and (max-width: 960px) {
+  .vditor-outline{
+    display: none !important;
+  }
 }
 </style>

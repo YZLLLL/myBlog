@@ -21,7 +21,7 @@
       </span>
     </button>
     <div class="icons">
-      <IconGithub />
+      <!-- <IconGithub /> -->
       <SwitchTopic />
       <el-icon class="fold" @click="popupMenuVisible = true"><Fold /></el-icon>
     </div>
@@ -65,7 +65,7 @@ const popupMenuVisible = ref(false)
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
-    height: 36px;
+    height: 26px;
     margin: 0 6px;
     padding: 0 6px;
     justify-content: space-between;
