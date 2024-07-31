@@ -6,5 +6,9 @@ export const useGroupStore = defineStore('group', () => {
   const setGroup = (data) => {
     group.value = data
   }
-  return { group, setGroup }
+  const menus = ref<any[]>([])
+  const setMenus = (data: any[]) => {
+    menus.value = data
+  }
+  return { group, setGroup, menus, setMenus }
 })

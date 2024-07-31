@@ -1,18 +1,12 @@
 <template>
   <div class="list-container" v-loading="loading">
     <ArticleList :articles="articles" />
-    <!-- <div class="article-item" @click="goArticle(item)" v-for="item in articles" :key="item.id">
-      <img class="cover" :src="item.cover || 'https://fbimg.fangxinxue.net/plan/202108/27/163006392734634.jpeg'" alt="" />
-      <div class="text">
-        <div class="title">{{ item.title }}</div>
-        <div class="intro text-line-2">{{ item.introduction }}</div>
-      </div>
-    </div> -->
-    
     <el-empty v-if="articles&&articles.length==0" description="空空如也~" />
   </div>
   <!-- 当total为0时，page始终为1 -->
-  <el-pagination style="margin-bottom: 16px" :current-page="page" @current-change="getCurrentPage" :page-size="size" layout="prev, pager, next" :total="total" />
+   <div class="pagination">
+    <el-pagination style="margin-bottom: 12px" :current-page="page" @current-change="getCurrentPage" :page-size="size" layout="prev, pager, next" :total="total" />
+   </div>
 </template>
 
 <script setup>
@@ -51,10 +45,10 @@ const getPageList = (groupId) => {
 const getCurrentPage = (newPage) => {
   page.value = newPage;
   // router.replace(`/group?id=${route.query.id}&page=${newPage}`)
-  getPageList(route.query.id)
+  getPageList(route.params.id)
 }
 
-watch(()=>route.query.id, (id) => {
+watch(()=>route.params.id, (id) => {
   if (id == undefined) return;
   page.value = 1;
   getPageList(id);
@@ -62,5 +56,9 @@ watch(()=>route.query.id, (id) => {
 </script>
 
 <style scoped>
-
+.pagination {
+  display: flex;
+  justify-content: center;
+  --el-fill-color-blank: transparent;
+}
 </style>

@@ -1,17 +1,15 @@
 <template>
-
   <!-- <el-carousel class="carousel" :interval="10000" type="card" height="240px">
     <el-carousel-item class="carousel-item" v-for="item in images" :key="item.id">
       <img class="carousel-item-image" :src="item.path" alt="">
     </el-carousel-item>
   </el-carousel> -->
 
-  <div class="list-container" v-loading="loading">
-
+  <div class="list-container">
     <ArticleList :articles="articles" />
-    
     <el-empty v-if="articles&&articles.length==0" description="空空如也~" />
   </div>
+  <div v-if="hasNext" v-loading="true" style="height: 32px; margin-bottom: 16px; --el-loading-spinner-size: 24px;--el-mask-color: transparent"></div>
 </template>
 
 <script setup>
@@ -46,10 +44,7 @@ const hasNext = ref(true)
 
 onMounted(() => {
   getArtciles();
-
   window.addEventListener("scroll", scroll);
-  
-
 })
 onUnmounted(() => {
   window.removeEventListener("scroll", scroll);
@@ -78,7 +73,6 @@ const scroll = throttle(function(e) {
   // toFixed：把this.scrollTop转换为整数，兼容不同版本浏览器
   var distanceToBottom = document.documentElement.scrollHeight - window.innerHeight - window.pageYOffset;
   if (distanceToBottom < h) {
-    console.log(1)
     getArtciles();
   }
 })

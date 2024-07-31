@@ -1,5 +1,6 @@
 import 'normalize.css'
 import './assets/main.css'
+import './assets/common.scss'
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'

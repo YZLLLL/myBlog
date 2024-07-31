@@ -1,7 +1,7 @@
 <template>
   <TransitionGroup name="list" tag="div">
     <div class="article-item" @click="goArticle(item)" v-for="item in articles" :key="item.id">
-      <img class="cover" :src="item.cover || 'https://fbimg.fangxinxue.net/plan/202108/27/163006392734634.jpeg'" alt="" />
+      <img class="cover" :src="item.cover || 'https://fbimg.fangxinxue.net/plan/202108/27/163006392734634.jpeg'" alt="封面" />
       <div class="text">
         <div class="title">{{ item.title }}</div>
         <div class="intro text-line-2">{{ item.introduction }}</div>
@@ -35,7 +35,7 @@ const goArticle = (item) => {
 .article-item {
   display: flex;
   align-items: center;
-  padding: 20px 20px;
+  padding: 1rem;
   border-bottom: 1px solid #c8c9cc;
   cursor: pointer;
   /* border-radius: 20px; */
@@ -55,7 +55,7 @@ const goArticle = (item) => {
 .cover {
   width: 80px;
   height: 80px;
-  margin-right: 40px;
+  margin-right: 2rem;
   flex-shrink: 0;
   border-radius: 5px;
   object-fit: cover;
@@ -64,12 +64,12 @@ const goArticle = (item) => {
   transition: all 0.1s;
 }
 .title {
-  font-size: 18px;
+  color: #606266;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 .intro {
   margin-top: 6px;
-  font-size: 14px;
   opacity: 0.6;
   line-height: 24px;
   letter-spacing: 0.1em;

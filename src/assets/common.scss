@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+box-sizing: inherit;
+}
+
+
+body {
+  font-family: Inter, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
+}
+
+a:focus,
+a:active {
+outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+cursor: pointer;
+color: var(--link-color);
+text-decoration: none;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px; /* 滚动条宽度 */
+}
+::-webkit-scrollbar:horizontal {
+  height: 8px
+}
+/* 滚动条轨道（背景） */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+/* 滚动滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #0003; /* 滑块颜色 */
+  border-radius: 10px;
+  transition: all .2s ease-in-out;
+}
+/* 滚动滑块 hover 状态 */
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background-color: #0000004d;
+}

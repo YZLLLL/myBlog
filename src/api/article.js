@@ -37,10 +37,11 @@ export function like(data) {
 }
 
 // 搜索文章
-export function search(params) {
+export function search(params, config = {}) {
   return request({
     url: `/article/search`,
     method: "GET",
     params,
+    ...config
   });
 }

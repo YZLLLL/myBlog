@@ -25,6 +25,8 @@ onMounted(() => {
   getGroups()
     .then(({ data }) => {
       menus.value = processMenu(data).sort((a, b) => a.id - b.id);
+      group.setMenus(menus.value);
+      console.log(menus.value)
     })
     .finally(() => {
       loading.value = false;
@@ -35,7 +37,7 @@ const route = useRoute();
 const router = useRouter();
 const goGroup = (item) => {
   group.setGroup(item);
-  router.replace(`/group?id=${itemid}`);
+  router.replace(`/group/${item.id}`);
 };
 const showBreadcrumb = computed(() => {
   return route.path.indexOf("/home") === -1;
@@ -56,6 +58,15 @@ function onSearch() {
   router.push(`/search?s=${searchStr.value}`);
 }
 
+const activeMenu = computed(() => {
+  const { meta, path } = route
+  // if set path, the sidebar will highlight the path you set
+  if (meta.activeMenu) {
+    return meta.activeMenu
+  }
+  return path
+})
+
 function goHome() {
   router.push(`/`);
 }
@@ -63,18 +74,18 @@ function goHome() {
 
 <template>
   <div class="dark">
-  <div class="nav">
-    <div class="nav-warpper" @click="goHome">
-      <img class="nav-logo" src="@/assets/images/logo.png" alt="">
-      <UserTool />
+    <div class="nav">
+      <div class="nav-warpper">
+        <img class="nav-logo" @click="goHome" src="@/assets/images/logo.png" alt="" />
+        <UserTool />
+      </div>
     </div>
-  </div>
 
-  <div class="sidebar">
-    <el-menu background-color="#FAFAFA" mode="vertical" class="recursive-menu">
-      <Menu :menu-items="menus" />
-    </el-menu>
-    <!-- <el-input
+    <div class="sidebar">
+      <el-menu :default-active="activeMenu" mode="vertical" class="menu">
+        <Menu :menu-items="menus" />
+      </el-menu>
+      <!-- <el-input
           v-show="!loading"
           v-model="searchStr"
           class="search"
@@ -85,15 +96,23 @@ function goHome() {
             <el-button @click="onSearch" :icon="Search" />
           </template>
         </el-input> -->
-  </div>
-  <div class="main" v-loading="loading">
-    <RouterView />
-    <!-- <RightPanel /> -->
-  </div>
+    </div>
+    <div class="main" v-loading="loading">
 
-  <el-backtop :visibility-height="1200" :right="50" :bottom="50" />
-  <Footer />
-</div>
+      <el-breadcrumb v-if="showBreadcrumb" class="breadcrumb" :separator-icon="ArrowRight">
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item @click="goGroup(group.group)" v-if="(showGroup||showArticle)&&group.group.title">{{ group.group.title }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="showSearch">搜索结果</el-breadcrumb-item>
+      </el-breadcrumb>
+
+      <RouterView />
+      <!-- <RightPanel /> -->
+    </div>
+
+    <el-backtop :visibility-height="1200" :right="50" :bottom="50" />
+    <Footer />
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -108,14 +127,14 @@ function goHome() {
   border-bottom: 1px solid var(--border-color);
   background-image: radial-gradient(var(--bg-color), var(--bg-color));
   .nav-warpper {
-    padding: 0 32px;
+    padding: 0 12px 0 24px;
     height: 100%;
     display: flex;
     align-items: center;
     .nav-logo {
       width: 32px;
     }
-  } 
+  }
 }
 
 .sidebar {
@@ -134,11 +153,19 @@ function goHome() {
 .main {
   margin-left: 0;
   transition: margin-left 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  .breadcrumb {
+    height: 2rem;
+    line-height: 2rem;
+    padding-left: 0.5rem;
+  } 
 }
 @media screen and (min-width: 960px) {
   .nav {
     background-image: radial-gradient(transparent 1px, var(--bg-color) 1px);
     backdrop-filter: saturate(50%) blur(4px);
+    .nav-warpper {
+      padding: 0 24px;
+    }
   }
   .sidebar {
     transform: translate(0);
