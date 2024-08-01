@@ -4,6 +4,7 @@
     title=""
     :show-close="false"
     class="popup-menu-drawer"
+    append-to-body
     size="50%"
     :direction="direction"
   >

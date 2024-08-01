@@ -25,9 +25,18 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
     resolve: {
-      
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
+    },
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          dead_code: true,
+          drop_console: true,
+          drop_debugger: true
+        }
       }
     }
   }

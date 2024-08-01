@@ -45,13 +45,13 @@ defineProps<{
   menuItems: any[];
 }>();
 const emits = defineEmits(["close"]);
-const goGroup = (item) => {
+const goGroup = (item: any) => {
   group.setGroup(item);
   router.push(`/group/${item.id}`);
   emits('close')
 };
 
-const goUrl = (url) => {
+const goUrl = (url: string) => {
   window.open(url);
 };
 </script>
@@ -62,7 +62,7 @@ const goUrl = (url) => {
   width: 100%;
 }
 </style>
-<style>
+<style scoped lang="scss">
 .menu {
   --el-menu-hover-bg-color: rgba(64, 158, 255, .1);
   --el-menu-border-color: transparent;

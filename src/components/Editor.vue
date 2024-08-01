@@ -50,16 +50,6 @@ export default {
               })
             })
           })
-          // outline.addEventListener('click', (e) => {
-          //   console.log(e)
-          // }, {
-          //   capture: true
-          // })
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-          });
         }
       })
     }

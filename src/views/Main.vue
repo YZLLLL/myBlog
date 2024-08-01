@@ -33,7 +33,7 @@ onMounted(() => {
 const route = useRoute();
 
 const router = useRouter();
-const goGroup = (item) => {
+const goGroup = (item: any) => {
   group.setGroup(item);
   router.replace(`/group/${item.id}`);
 };
