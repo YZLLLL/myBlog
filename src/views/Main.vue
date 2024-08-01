@@ -10,6 +10,7 @@ import processMenu from "../utils/processMenu";
 import { ref, onMounted, computed } from "vue";
 import { useGroupStore } from "../stores/group";
 import UserTool from "@/components/UserTool.vue";
+import IconName from '@/components/icons/IconName.vue'
 const group = useGroupStore();
 // todo
 /**
@@ -80,6 +81,7 @@ function goHome() {
           src="@/assets/images/logo.png"
           alt=""
         />
+        <IconName />
         <UserTool />
       </div>
     </div>

@@ -62,7 +62,7 @@ const goUrl = (url: string) => {
   width: 100%;
 }
 </style>
-<style scoped lang="scss">
+<style lang="scss">
 .menu {
   --el-menu-hover-bg-color: rgba(64, 158, 255, .1);
   --el-menu-border-color: transparent;

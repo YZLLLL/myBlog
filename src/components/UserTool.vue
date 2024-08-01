@@ -35,7 +35,7 @@ import { Fold, Search } from "@element-plus/icons-vue";
 import IconGithub from "./icons/IconGithub.vue";
 import SwitchTopic from "./SwitchTopic.vue";
 import SearchDialog from "./SearchDialog.vue";
-import { ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import PopupMenu from './PopupMenu/index.vue'
 
 
@@ -47,6 +47,20 @@ watch(() => searchVisible.value, () => {
     document.body.classList.remove('search-open')
   }
 })
+
+onMounted(() => {
+  window.addEventListener('keydown', handleOpenSearch)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleOpenSearch)
+})
+
+const handleOpenSearch = (e: KeyboardEvent) => {
+  if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+    e.preventDefault()
+    searchVisible.value = true
+  }
+}
 const popupMenuVisible = ref(false)
 </script>
 

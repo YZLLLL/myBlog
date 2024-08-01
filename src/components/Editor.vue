@@ -78,6 +78,7 @@ export default {
   border-radius: 6px;
   min-height: 800px;
   overflow: hidden;
+  --textarea-text-color: var(--el-menu-text-color);
 }
 ::v-deep .vditor-reset {
   padding: 32px 1rem 96px !important;

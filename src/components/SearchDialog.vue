@@ -6,6 +6,7 @@
           v-model="keywords"
           @update:modelValue="handleSearch"
           class="search-input"
+          ref="inputRef"
           placeholder="搜索"
         >
           <template #prefix>
@@ -59,6 +60,7 @@
               display: flex;
               height: 100%;
               width: 100%;
+              min-height: 80px;
               align-items: center;
               justify-content: center;
             "
@@ -75,7 +77,7 @@
                 v-for="(item, index) in recordList"
                 :key="item.title"
               >
-                <router-link :to="`/article?id=${item.id}`">
+                <router-link @click="handleClick(item)" :to="`/article?id=${item.id}`">
                   <div class="record-item-box">
                     <div class="record-item-box-title">
                       <el-icon><PieChart /></el-icon>
@@ -114,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { PieChart, Close, Document, Search } from "@element-plus/icons-vue";
 import IconEsc from "./icons/IconEsc.vue";
 import IconUp from "./icons/IconUp.vue";
@@ -122,6 +124,7 @@ import IconDown from "./icons/IconDown.vue";
 import IconEnter from "./icons/IconEnter.vue";
 import { search } from "@/api/article";
 import { debounce } from "@/utils/index";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   visible: boolean;
@@ -132,9 +135,17 @@ const emits = defineEmits<{
 
 const keywords = ref("");
 const handleClose = () => {
-  keywords.value = "";
   emits("update:visible", false);
 };
+const inputRef = ref()
+watch(() => props.visible, (val) => {
+  if (val) {
+    getRecords();
+    inputRef.value?.focus()
+  } else {
+    keywords.value = "";
+  }
+})
 
 const hoverId = ref();
 const handleMouseEnter = (id: any) => {
@@ -162,6 +173,7 @@ const handleSearch = () => {
     (res: any) => {
       searchLoading.value = false;
       resultList.value = res.data?.articles ?? [];
+      hoverId.value = resultList.value.length ? resultList.value[0].id : undefined
     },
     (e: any) => {
       searchLoading.value = false;
@@ -171,14 +183,13 @@ const handleSearch = () => {
 };
 
 const recordList = ref<any[]>([]);
-onMounted(() => {
-  getRecords();
-});
+
 const getRecords = () => {
   try {
     recordList.value = JSON.parse(
       localStorage.getItem("search-history") ?? "[]"
     );
+    hoverId.value = recordList.value.length ? recordList.value[0].id : undefined
   } catch (e) {
     recordList.value = [];
     setRecords([]);
@@ -188,7 +199,7 @@ const setRecords = (list: any[]) => {
   localStorage.setItem("search-history", JSON.stringify(list));
 };
 const addRecord = (record: any) => {
-  const index = recordList.value.find((item) => item.id === record.id);
+  const index = recordList.value.findIndex((item) => item.id === record.id);
   if (index !== undefined) {
     recordList.value.splice(index, 1);
   }
@@ -207,6 +218,63 @@ const handleClick = (item: any) => {
     id: item.id,
   });
 };
+
+const router = useRouter()
+const handleKeydown = (e: KeyboardEvent) => {
+  const key = e.key
+  console.log(key)
+  if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(key)) return
+  e.preventDefault()
+  const items = keywords.value.length ? resultList.value : recordList.value
+  const index = items.findIndex((i) => hoverId.value === i.id)
+  if (index === undefined) return
+  if (key === 'ArrowDown') {
+    const doms = document.body.querySelectorAll<HTMLElement>('.record>.record-item') || []
+    let dom: HTMLElement;
+    if (index === items.length - 1) {
+      hoverId.value = items[0].id
+      dom = doms[0]
+    } else {
+      hoverId.value = items[index + 1].id
+      dom = doms[index+1]
+    }
+    dom?.scrollIntoView({
+      block: 'center'
+    })
+  } else if (key === 'ArrowUp') {
+    const doms = document.body.querySelectorAll<HTMLElement>('.record>.record-item') || []
+    let dom: HTMLElement;
+    if (index === 0) {
+      hoverId.value = items[items.length - 1].id
+      dom = doms[items.length - 1]
+    } else {
+      hoverId.value = items[index - 1].id
+      dom = doms[index - 1]
+    }
+    dom?.scrollIntoView({
+      block: 'center'
+    })
+  } else if (key === 'Enter') {
+    const item = items[index]
+    setTimeout(() => {
+      handleClose();
+    }, 0)
+    addRecord({
+      title: item.title,
+      id: item.id,
+    });
+    router.push(`/article?id=${hoverId.value}`)
+  } else {
+    handleClose();
+  }
+}
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style lang="scss" scoped>

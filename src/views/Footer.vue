@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <span>Copyright © 2024 YZL个人博客</span>
-    <span class="email">邮箱：1561213483@qq.com</span>
+    <a href="mailto:1561213483@qq.com" class="email" >邮箱：1561213483@qq.com</a>
     <a
       class="a"
       target="_blank"
