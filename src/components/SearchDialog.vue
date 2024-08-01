@@ -52,7 +52,8 @@
           </div>
         </template>
         <template v-else>
-          <el-button link
+          <el-button
+            link
             v-if="recordList.length === 0"
             style="
               display: flex;
@@ -80,7 +81,9 @@
                       <el-icon><PieChart /></el-icon>
                       <span>{{ item.title }}</span>
                     </div>
-                    <el-icon @click.prevent="delRecord(index)"><Close /></el-icon>
+                    <el-icon @click.prevent="delRecord(index)"
+                      ><Close
+                    /></el-icon>
                   </div>
                 </router-link>
               </li>
@@ -135,7 +138,6 @@ const handleClose = () => {
 
 const hoverId = ref();
 const handleMouseEnter = (id: any) => {
-  console.log('hoverId', hoverId.value)
   hoverId.value = id;
 };
 
@@ -143,7 +145,7 @@ const resultList = ref<any[]>([]);
 let abortController: AbortController;
 const searchLoading = ref(false);
 const handleSearch = () => {
-  hoverId.value = undefined
+  hoverId.value = undefined;
   abortController?.abort("cancel");
   abortController = new AbortController();
   searchLoading.value = true;
@@ -236,10 +238,9 @@ const handleClick = (item: any) => {
         --el-component-size: 56px;
         flex: 1;
         ::v-deep(.el-input__wrapper) {
-        box-shadow: inset 0 0 0 2px #409eff;
-
+          box-shadow: inset 0 0 0 2px #409eff;
         }
-        background: var(--bg-color);
+        background: var(--el-bg-color);
         border-radius: 4px;
         font-size: 1.2rem;
       }

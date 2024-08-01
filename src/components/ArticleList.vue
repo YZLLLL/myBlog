@@ -45,7 +45,7 @@ const goArticle = (item) => {
 }
 .article-item:hover .text {
   text-decoration: underline;
-  color: #409EFF;
+  color: var(--el-text-color-primary);
   transform: scale(1.01);
 }
 
@@ -64,13 +64,13 @@ const goArticle = (item) => {
   transition: all 0.1s;
 }
 .title {
-  color: #606266;
+  color: var(--el-text-color-regular);
   font-size: 1.2rem;
   font-weight: 600;
 }
 .intro {
   margin-top: 6px;
-  opacity: 0.6;
+  color: var(--el-text-color-secondary);
   line-height: 24px;
   letter-spacing: 0.1em;
 }

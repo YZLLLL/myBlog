@@ -125,3 +125,10 @@ const popupMenuVisible = ref(false)
   }
 }
 </style>
+<style lang="scss">
+html.dark {
+  .search-btn {
+    background: transparent !important;
+  }
+}
+</style>

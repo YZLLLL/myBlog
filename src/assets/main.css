@@ -2,7 +2,6 @@
 :root,
 html {
   font-size: 16px;
-  --bg-color: #ffffff;
   --nav-height: 60px;
   --sidebar-width: 180px;
   --footer-height: 160px;
@@ -12,12 +11,10 @@ html {
   --searchbox-background: rgba(200, 200, 200, 0.8);
   --modal-background: #fafafa;
   --hover-bg-color: #f4f4f5;
-  background-color: var(--bg-color);
 }
 
 :root.dark,
 html.dark {
-  --bg-color: #000000;
   --switch-bg-color: #2c2c2c;
   --footer-bg-color: #2c2c2c;
   --searchbox-background: rgba(0,0,0, 0.8);
@@ -27,7 +24,7 @@ html.dark {
     --panel-background-color: #1b1919;
     --ir-bracket-color: #ff6000;
     .vditor-reset {
-      color: #fff;
+      color: var(--el-text-color-regular);;
     }
     .vditor-reset blockquote {
       border-left: .25em solid #bbb;
@@ -57,14 +54,16 @@ html.dark {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/inter/v18/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2) format('woff2');
+  src: url(./fonts/Inter.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+body {
+  background-color: var(--el-bg-color);
+}
 .list-container {
-  padding: 10px 20px;
-  margin-bottom: 20px;
-  background-color: var(--bg-color);
+  margin: 10px;
+  background-color: var(--el-bg-color);
 }
 
 .text-line-1 {

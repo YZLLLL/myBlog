@@ -44,7 +44,6 @@ function getCurrentPage(newPage) {
 const route = useRoute();
 watch(() => route.query.s,(s) => {
   if(s == undefined) return;
-  console.log(s)
   searchArticles(s)
 }, {immediate: true})
 </script>

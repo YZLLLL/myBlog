@@ -79,7 +79,6 @@ export default {
     }
 
     function open() {
-      console.log(props)
       emit("open", {
         articleId: props.comment.article_id,
         pCommentId: props.comment.p_comment_id,

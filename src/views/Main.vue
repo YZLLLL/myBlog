@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
-// import HelloWorld from './components/HelloWorld.vue'
 import Menu from "./Menu.vue";
 import { Search } from "@element-plus/icons-vue";
 import RightPanel from "./RightPanel.vue";
@@ -26,7 +25,6 @@ onMounted(() => {
     .then(({ data }) => {
       menus.value = processMenu(data).sort((a, b) => a.id - b.id);
       group.setMenus(menus.value);
-      console.log(menus.value)
     })
     .finally(() => {
       loading.value = false;
@@ -59,13 +57,13 @@ function onSearch() {
 }
 
 const activeMenu = computed(() => {
-  const { meta, path } = route
+  const { meta, path } = route;
   // if set path, the sidebar will highlight the path you set
   if (meta.activeMenu) {
-    return meta.activeMenu
+    return meta.activeMenu;
   }
-  return path
-})
+  return path;
+});
 
 function goHome() {
   router.push(`/`);
@@ -73,10 +71,15 @@ function goHome() {
 </script>
 
 <template>
-  <div class="dark">
+  <div>
     <div class="nav">
       <div class="nav-warpper">
-        <img class="nav-logo" @click="goHome" src="@/assets/images/logo.png" alt="" />
+        <img
+          class="nav-logo"
+          @click="goHome"
+          src="@/assets/images/logo.png"
+          alt=""
+        />
         <UserTool />
       </div>
     </div>
@@ -98,10 +101,17 @@ function goHome() {
         </el-input> -->
     </div>
     <div class="main" v-loading="loading">
-
-      <el-breadcrumb v-if="showBreadcrumb" class="breadcrumb" :separator-icon="ArrowRight">
+      <el-breadcrumb
+        v-if="showBreadcrumb"
+        class="breadcrumb"
+        :separator-icon="ArrowRight"
+      >
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item @click="goGroup(group.group)" v-if="(showGroup||showArticle)&&group.group.title">{{ group.group.title }}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          @click="goGroup(group.group)"
+          v-if="(showGroup || showArticle) && group.group.title"
+          >{{ group.group.title }}</el-breadcrumb-item
+        >
         <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
         <el-breadcrumb-item v-if="showSearch">搜索结果</el-breadcrumb-item>
       </el-breadcrumb>
@@ -123,14 +133,16 @@ function goHome() {
   position: sticky;
   z-index: 100;
   height: var(--nav-height);
-  background-size: 4px 4px;
-  border-bottom: 1px solid var(--border-color);
-  background-image: radial-gradient(var(--bg-color), var(--bg-color));
+  // background:var(--el-mask-color);
   .nav-warpper {
     padding: 0 12px 0 24px;
     height: 100%;
     display: flex;
     align-items: center;
+    background-size: 4px 4px;
+    border-bottom: 1px solid var(--border-color);
+    background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
+    backdrop-filter: saturate(50%) blur(4px);
     .nav-logo {
       width: 32px;
     }
@@ -142,12 +154,12 @@ function goHome() {
   inset: 0;
   top: var(--nav-height);
   width: var(--sidebar-width);
-  background-color: var(--bg-color);
+  background-color: var(--el-bg-color);
   transform: translate(-100%);
   transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   ::v-deep(.el-menu) {
     border: none;
-    background: var(--bg-color);
+    background: var(--el-bg-color);
   }
 }
 .main {
@@ -156,12 +168,10 @@ function goHome() {
   .breadcrumb {
     line-height: 2.8rem;
     padding-left: 0.5rem;
-  } 
+  }
 }
 @media screen and (min-width: 960px) {
   .nav {
-    background-image: radial-gradient(transparent 1px, var(--bg-color) 1px);
-    backdrop-filter: saturate(50%) blur(4px);
     .nav-warpper {
       padding: 0 24px;
     }
