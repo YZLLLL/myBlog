@@ -45,3 +45,22 @@ export function search(params, config = {}) {
     ...config
   });
 }
+
+// 添加文章
+export function addArticle(data) {
+  return request({
+    url: `/article/add`,
+    method: "POST",
+    data,
+  });
+}
+
+// 删除文章
+export function delArtcile(data) {
+  return request({
+    url: `/article/del`,
+    method: "POST",
+    data,
+  });
+}
+

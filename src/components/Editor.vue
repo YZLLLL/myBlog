@@ -53,6 +53,10 @@ export default {
         }
       })
     }
+
+    onMounted(() => {
+      init(reactiveProps.value)
+    })
     
     watch(() => reactiveProps.value, (value) => {
       init(value)

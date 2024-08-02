@@ -2,113 +2,168 @@
   <div class="article">
     <Editor v-loading="loading" :value="content" />
     <div class="other-info">
-      <span class="updat-time">{{`更新时间：${formatTime(article.info.update_time)}`}}</span>
-      <span>{{`阅读量：${article.info.pv} `}}</span><el-icon class="view"><View /></el-icon>
+      <span class="updat-time">{{
+        `更新时间：${formatTime(article.info.update_time)}`
+      }}</span>
+      <span>{{ `阅读量：${article.info.pv} ` }}</span
+      ><el-icon class="view"><View /></el-icon>
     </div>
     <div class="tags">
-      标签：<el-tag class="tag" type="success" effect="dark" v-show="item" v-for="(item,index) in tags" :key="index">{{ item }}</el-tag>
+      标签：<el-tag
+        class="tag"
+        type="success"
+        effect="dark"
+        v-show="item"
+        v-for="(item, index) in tags"
+        :key="index"
+        >{{ item }}</el-tag
+      >
     </div>
-    
+
     <div class="like">
       <!-- <el-button type="danger" v-if="second!==s" :disabled="true" size="large" @click="doLike">{{`${second}秒后可再次点击`}}</el-button> -->
-      <el-button type="danger" :disabled="disabled" :loading="likeLoading" size="large" @click="doLike">点赞{{` ( ${article.info.like_count} )`}}</el-button>
+      <el-button
+        type="danger"
+        :disabled="disabled"
+        :loading="likeLoading"
+        size="large"
+        @click="doLike"
+        >点赞{{ ` ( ${article.info.like_count} )` }}</el-button
+      >
     </div>
-    
+
     <Comment :id="route.query.id" />
-    
+
+    <el-button
+      v-if="userStroe.userInfo?.username === 'yeziliang'"
+      class="del"
+      type="danger"
+      :icon="Delete"
+      @click="handelDel"
+    />
+
     <div class="other-article">
       <div class="other-article-item">
-        <span v-if="prev.id" @click="goArticle(prev)"><el-icon style="margin-right: 8px;"><Back /></el-icon>上一篇：{{ prev.title }}</span>
+        <span v-if="prev.id" @click="goArticle(prev)"
+          ><el-icon style="margin-right: 8px"><Back /></el-icon>上一篇：{{
+            prev.title
+          }}</span
+        >
       </div>
       <div class="other-article-item">
-        <span v-if="next.id" @click="goArticle(next)">下一篇：{{ next.title }}<el-icon style="margin-left: 8px;"><Right /></el-icon></span>
-        </div>
+        <span v-if="next.id" @click="goArticle(next)"
+          >下一篇：{{ next.title
+          }}<el-icon style="margin-left: 8px"><Right /></el-icon
+        ></span>
+      </div>
     </div>
   </div>
-  
 </template>
 
 <script setup>
 import Editor from "../components/Editor.vue";
-import Comment from "../components/comment/index.vue"
-import { useRoute, useRouter } from "vue-router"
-import { ref, onMounted, reactive, watchEffect, watch, computed, nextTick } from 'vue';
-import { getArticle, like } from "../api/article"
-import { formatTime } from "../utils/index"
-import { useGroupStore } from "../stores/group"
+import Comment from "../components/comment/index.vue";
+import { useRoute, useRouter } from "vue-router";
+import { ref, onMounted, reactive, watch, computed } from "vue";
+import { getArticle, like } from "../api/article";
+import { formatTime } from "../utils/index";
+import { useGroupStore } from "../stores/group";
+import { Delete } from "@element-plus/icons-vue";
+import { useUserStore } from "@/stores/user";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { delArtcile } from '@/api/article'
 
+const userStroe = useUserStore();
 // 点赞
 const likeLoading = ref(false);
 let disabled = ref(false);
 const doLike = () => {
-  likeLoading.value = true
-  like({id: article.info.id}).then(() => {
-    article.info.like_count++;
-  }).finally(() => {
-    likeLoading.value = false;
-    disabled.value = true;
-  })
-}
-
-
-
+  likeLoading.value = true;
+  like({ id: article.info.id })
+    .then(() => {
+      article.info.like_count++;
+    })
+    .finally(() => {
+      likeLoading.value = false;
+      disabled.value = true;
+    });
+};
 
 const route = useRoute();
 
 onMounted(() => {
   getArticleInfo(route.query.id);
-})
+});
 
 // 获取文章详情
 const article = reactive({
   info: {
-    content: '',
-    title: '',
+    content: "",
+    title: "",
     pv: 0,
     update_time: 0,
     like_count: 0,
-    tags: ''
-  }
+    tags: "",
+  },
 });
 const tags = computed(() => {
   let str = article.info.tags || "";
-  return str.split(/,|，/)
-})
+  return str.split(/,|，/);
+});
 const prev = ref({});
 const next = ref({});
 const loading = ref(false);
 const getArticleInfo = (id) => {
   loading.value = true;
-  getArticle(id).then(({data})=>{
-    article.info = data.article;
-    prev.value = data.prev;
-    next.value = data.next;
-  }).finally(() => {
-    loading.value = false
-  })
-}
+  getArticle(id)
+    .then(({ data }) => {
+      article.info = data.article;
+      prev.value = data.prev;
+      next.value = data.next;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
 
 // 调整上一篇 下一篇
 const router = useRouter();
-const group = useGroupStore()
+const group = useGroupStore();
 const goArticle = (item) => {
   group.setGroup({
     id: item.group_id,
-    title: item.group_title
-  })
-  router.push(`/article?id=${item.id}`)
-}
+    title: item.group_title,
+  });
+  router.push(`/article?id=${item.id}`);
+};
 
 // 给md加上表头
 const content = computed(() => {
-  return `# ${article.info.title}\n${article.info.content}`
-})
+  return `# ${article.info.title}\n${article.info.content}`;
+});
 
-watch(() => route.query, (value) => {
-  if (value.id == undefined) return;
-  disabled.value = false;
-  getArticleInfo(value.id);
-})
+const handelDel = () => {
+  ElMessageBox.confirm("确定要删除吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      delArtcile({id: route.query.id}).then(() => {
+        ElMessage.success('删除成功')
+        router.replace('/')
+      })
+    })
+}
+
+watch(
+  () => route.query,
+  (value) => {
+    if (value.id == undefined) return;
+    disabled.value = false;
+    getArticleInfo(value.id);
+  }
+);
 </script>
 
 <style scoped>
@@ -145,7 +200,7 @@ watch(() => route.query, (value) => {
   cursor: pointer;
 }
 .other-article-item:hover {
-  color: #409EFF;
+  color: #409eff;
   text-decoration: underline;
 }
 .like {
@@ -154,17 +209,25 @@ watch(() => route.query, (value) => {
   align-items: center;
   padding: 20px 0;
 }
-.tags{
+.tags {
   margin-top: 16px;
   font-size: 16px;
   font-style: italic;
 }
-.tag{
+.tag {
   margin: 0 5px;
+}
+.del {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
 }
 </style>
 <style lang="scss">
-html.dark {
+@media (max-width: 960px) {
   .other-article {
     flex-direction: column;
     &-item:last-child {

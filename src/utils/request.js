@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElNotification } from "element-plus";
+import { useUserStore } from "@/stores/user";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL, // api 的 base_url
@@ -7,7 +8,8 @@ const instance = axios.create({
 });
 instance.interceptors.request.use((config) => {
   config.headers["Content-Type"] = "application/json;charset=utf-8";
-  let token = localStorage.getItem("token");
+  const userStore = useUserStore()
+  let token = userStore.token;
   if (token) {
     config.headers["Authorization"] = token;
   }
@@ -23,11 +25,20 @@ instance.interceptors.response.use(
     }
   },
   (error) => {
-    console.log(error);
-    if (error.code == 501) {
+    const code = error.response.status;
+    if (code == 501) {
       ElNotification.error({
         message: error.message,
       });
+    }
+
+    if (code === 401) {
+      ElNotification.error({
+        message: "登录过期，请重新登录",
+      })
+      const userStore = useUserStore()
+      userStore.logout()
+      location.href = "/login";
     }
     return Promise.reject(error);
   }

@@ -11,7 +11,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-
+import './router/permission'
 const app = createApp(App)
 
 // 导入所有图标并进行全局注册

@@ -7,6 +7,13 @@ export function getKey() {
   });
 }
 
+export function getInfo() {
+  return request({
+    url: `/user/getInfo`,
+    method: "get",
+  });
+}
+
 export function login(data) {
   return request({
     url: `/user/login`,

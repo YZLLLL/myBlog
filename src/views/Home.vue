@@ -10,31 +10,17 @@
     <el-empty v-if="articles&&articles.length==0" description="空空如也~" />
   </div>
   <div v-if="hasNext" v-loading="true" style="height: 32px; margin-bottom: 16px; --el-loading-spinner-size: 24px;--el-mask-color: transparent"></div>
+  <div v-if="articles.length !==0 && !hasNext" class="no-more">
+    暂无更多
+  </div>
 </template>
 
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue"
 import { getLatestArtcile } from "../api/article"
-import View from "../assets/images/view.jpg"
-import Tixi from "../assets/images/tixi.png"
-import DN from "../assets/images/dianao.webp"
-import Rumen from "../assets/images/rumen.jpg"
 import ArticleList from "../components/ArticleList.vue"
 import { throttle } from "../utils/index"
 
-const images = [{
-  id: 1,
-  path: View
-}, {
-  id: 2,
-  path: Tixi
-}, {
-  id: 3,
-  path: DN
-}, {
-  id: 4,
-  path: Rumen
-}]
 
 const loading = ref(false);
 const articles = ref([]);
@@ -65,7 +51,6 @@ function getArtciles() {
   });
 }
 
-// todo 首页 触底加载更多
 // 后端 变成 分页查
 const h = 200; // 距离底部多少
 const scroll = throttle(function(e) {
@@ -91,5 +76,12 @@ const scroll = throttle(function(e) {
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+.no-more {
+  display: flex;
+  justify-content: center;
+  height: 2rem;
+  font-size: 0.8rem;
+  color: var(--el-text-color-placeholder);
 }
 </style>
