@@ -1,10 +1,10 @@
 import { useUserStore } from "@/stores/user";
 import router from "./index";
 
-const whiteList = ["/login", "/home", "/group", "/article", "/search", "/open"];
+const whiteList = ["/login", "/home", "/group/*", "/article", "/search", "/open"];
 
 const isWhiteList = (path: any) => {
-  return whiteList.indexOf(path) !== -1;
+  return whiteList.some((p) => new RegExp(p).test(path))
 };
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
