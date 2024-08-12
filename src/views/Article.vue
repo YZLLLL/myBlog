@@ -169,7 +169,9 @@ watch(
 <style scoped>
 .article {
   position: relative;
-  margin: 0 0.8rem;
+  box-sizing: border-box;
+  padding: 0 0.8rem;
+  max-width: 100vw;
 }
 .other-info {
   position: absolute;

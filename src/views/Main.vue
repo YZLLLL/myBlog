@@ -174,6 +174,7 @@ function goHome() {
 .main {
   display: flex;
   margin-left: 0;
+  padding-right: 0;
   max-width: calc(var(--main-max-width) - var(--sidebar-width));
   transition: margin-left 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   .breadcrumb {
