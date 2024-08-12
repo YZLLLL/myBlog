@@ -101,17 +101,18 @@ const goArticle = (id) => {
 
 <style scoped>
 .right-panel {
-  width: 240px;
+  display: none;
+  width: var(--right-panel-width);
   flex-shrink: 0;
   margin-left: 20px;
 }
 .container{
   position: sticky;
-  top: 12px;
+  top: calc(12px + var(--nav-height));
   padding-bottom: 32px;
 }
 .panel-container {
-  background-color: #fff;
+  background-color: var(--bg-color);
   overflow: hidden;
   border-radius: 5px;
   margin: 32px 0;
@@ -126,9 +127,7 @@ const goArticle = (id) => {
   font-size: 18px;
   font-weight: 600;
   line-height: 42px;
-  /* color: #fff; */
-  color: #fff;
-  background-color: #f99797;
+  color: var(--el-text-color-primary);
 }
 .panel-list {
   margin: 6px 10px;
@@ -138,7 +137,7 @@ const goArticle = (id) => {
   cursor: pointer;
   font-size: 15px;
   line-height: 20px;
-  color: #606266;
+  color: var(--el-text-color-regular);
   border-bottom: 1px solid #E4E7ED;
 }
 .pv {
@@ -161,5 +160,10 @@ const goArticle = (id) => {
   height: 100%;
   margin-right: 4px;
   color: #fcd3d3;
+}
+@media screen and (min-width: 1280px) {
+  .right-panel {
+    display: block;
+  }
 }
 </style>

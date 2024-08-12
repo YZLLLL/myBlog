@@ -89,7 +89,8 @@ watch(
 .no-more {
   display: flex;
   justify-content: center;
-  height: 2rem;
+  height: 4rem;
+  line-height: 4rem;
   font-size: 0.8rem;
   color: var(--el-text-color-placeholder);
 }

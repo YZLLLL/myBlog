@@ -72,7 +72,7 @@ function goHome() {
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <div class="nav">
       <div class="nav-warpper">
         <img
@@ -103,23 +103,27 @@ function goHome() {
         </el-input> -->
     </div>
     <div class="main" v-loading="loading">
-      <el-breadcrumb
-        v-if="showBreadcrumb"
-        class="breadcrumb"
-        :separator-icon="ArrowRight"
-      >
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item
-          @click="goGroup(group.group)"
-          v-if="(showGroup || showArticle) && group.group.title"
-          >{{ group.group.title }}</el-breadcrumb-item
+      <div class="content">
+        <el-breadcrumb
+          v-if="showBreadcrumb"
+          class="breadcrumb"
+          :separator-icon="ArrowRight"
         >
-        <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="showSearch">搜索结果</el-breadcrumb-item>
-      </el-breadcrumb>
+          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item
+            @click="goGroup(group.group)"
+            v-if="(showGroup || showArticle) && group.group.title"
+            >{{ group.group.title }}</el-breadcrumb-item
+          >
+          <el-breadcrumb-item v-if="showArticle">文章详情</el-breadcrumb-item>
+          <el-breadcrumb-item v-if="showSearch">搜索结果</el-breadcrumb-item>
+        </el-breadcrumb>
 
-      <RouterView />
-      <!-- <RightPanel /> -->
+        <RouterView />
+
+      </div>
+
+      <RightPanel />
     </div>
 
     <el-backtop :visibility-height="1200" :right="50" :bottom="50" />
@@ -135,17 +139,20 @@ function goHome() {
   position: sticky;
   z-index: 100;
   height: var(--nav-height);
+  border-bottom: 1px solid var(--border-color);
   // background:var(--el-mask-color);
   .nav-warpper {
+    margin: 0 auto;
     padding: 0 12px 0 24px;
+    max-width: var(--main-max-width);
     height: 100%;
     display: flex;
     align-items: center;
     background-size: 4px 4px;
-    border-bottom: 1px solid var(--border-color);
     background-image: radial-gradient(transparent 1px, var(--el-bg-color) 1px);
     backdrop-filter: saturate(50%) blur(4px);
     .nav-logo {
+      cursor: pointer;
       width: 32px;
     }
   }
@@ -165,24 +172,50 @@ function goHome() {
   }
 }
 .main {
+  display: flex;
   margin-left: 0;
+  max-width: calc(var(--main-max-width) - var(--sidebar-width));
   transition: margin-left 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   .breadcrumb {
     line-height: 2.8rem;
     padding-left: 0.5rem;
   }
+  .content {
+      max-width: calc(var(--main-max-width) - var(--right-panel-width));
+  }
 }
+
+
+// 只显示content
 @media screen and (min-width: 960px) {
-  .nav {
-    .nav-warpper {
-      padding: 0 24px;
-    }
+  .container {
+    --sidebar-padding-left: 24px;
   }
   .sidebar {
+    padding-left: var(--sidebar-padding-left);
     transform: translate(0);
   }
   .main {
-    margin-left: var(--sidebar-width);
+      --margin-left: calc(var(--sidebar-width) + var(--sidebar-padding-left));
+      margin-left: var(--margin-left);
+      max-width: calc(100% - var(--margin-left));
+      padding-right: 12px;
+  }
+}
+
+// 全部显示
+@media screen and (min-width: 1480px) {
+  .container {
+    --sidebar-padding-left: calc((100% - var(--main-max-width)) / 2);
+  }
+  .sidebar {
+    padding-left: var(--sidebar-padding-left);
+    transform: translate(0);
+  }
+  .main {
+      margin-left: calc((100% - var(--main-max-width)) / 2 + var(--sidebar-width));
+      max-width: calc(var(--main-max-width) - var(--sidebar-width));
+      padding-right: 0;
   }
 }
 </style>
