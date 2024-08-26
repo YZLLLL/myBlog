@@ -182,6 +182,7 @@ function goHome() {
     padding-left: 0.5rem;
   }
   .content {
+      flex-grow: 1;
       max-width: calc(var(--main-max-width) - var(--right-panel-width));
   }
 }

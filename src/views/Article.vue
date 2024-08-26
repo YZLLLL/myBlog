@@ -1,6 +1,6 @@
 <template>
   <div class="article">
-    <Editor v-loading="loading" :value="content" />
+    <Editor v-loading="loading" :content="content" />
     <div class="other-info">
       <span class="updat-time">{{
         `更新时间：${formatTime(article.info.update_time)}`
@@ -139,6 +139,9 @@ const goArticle = (item) => {
 
 // 给md加上表头
 const content = computed(() => {
+  if (!article.info.title) {
+    return ''
+  }
   return `# ${article.info.title}\n${article.info.content}`;
 });
 

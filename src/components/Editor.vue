@@ -1,72 +1,68 @@
-<script>
+<script setup lang="ts">
 // 1.1 引入Vditor 构造函数
-import Vditor from 'vditor'
+import Vditor from "vditor";
 // 1.2 引入样式
-import 'vditor/dist/index.css';
-import { ref, onMounted, reactive, toRefs, watch } from 'vue';
-export default {
-  props: {
-    value: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
-    const reactiveProps = reactive(props);
-    const vditor = ref();
-    const loading = ref(false);
-    const init = (value) => {
-      loading.value = true;
-      vditor.value = new Vditor('vditor', {
-        toolbar: [],
-        outline: {
-          enable: true,
-          position: "right"
-        },
-        toolbarConfig: {
-          hide: true,
-          pin: true
-        },
-        cache: {
-          enable: false,
-        },
-        // 将一些cdn放到了本地 public下
-        cdn: import.meta.env.VITE_APP_PUBLIC_JS,
-        height: '100%',
-        width: '100%',
-        mode: 'ir',
-        value,
-        after: () => {
-          vditor.value.disabled();
-          loading.value = false;
-          const outlines = document.querySelectorAll('.vditor-outline__content span[data-target-id]');
-          outlines.forEach((el) => {
-            const target = document.querySelector(`#${el.dataset.targetId}`)
-            el.addEventListener('click', (e) => {
-              e.stopPropagation()
-              window.scrollTo({
-                top: target.offsetTop,
-                behavior: 'smooth'
-              })
-            })
-          })
-        }
-      })
-    }
+import "vditor/dist/index.css";
+import { ref, onMounted, watch } from "vue";
+import { debounce } from '@/utils/index'
 
-    onMounted(() => {
-      init(reactiveProps.value)
-    })
-    
-    watch(() => reactiveProps.value, (value) => {
-      init(value)
-    })
-    return {
-      reactiveProps,
-      loading
-    }
-  }
-}
+const props = defineProps<{
+  content: string;
+}>();
+const vditor = ref();
+const loading = ref(false);
+
+// setValue
+const init = (content: string) => {
+  loading.value = true;
+  vditor.value = new Vditor("vditor", {
+    toolbar: [],
+    outline: {
+      enable: true,
+      position: "right",
+    },
+    toolbarConfig: {
+      hide: true,
+      pin: true,
+    },
+    cache: {
+      enable: false,
+    },
+    // 将一些cdn放到了本地 public下
+    // cdn: import.meta.env.VITE_APP_PUBLIC_JS,
+    height: "100%",
+    width: "100%",
+    mode: "ir",
+    value: content,
+    after: () => {
+      vditor.value.disabled();
+      loading.value = false;
+      const outlines = document.querySelectorAll<HTMLDivElement>(
+        ".vditor-outline__content span[data-target-id]"
+      );
+      outlines.forEach((el) => {
+        const target = document.querySelector<HTMLDivElement>(
+          `#${el.dataset.targetId}`
+        );
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          window.scrollTo({
+            top: target?.offsetTop || 0,
+            behavior: "smooth",
+          });
+        });
+      });
+    },
+  });
+};
+
+onMounted(() => {
+  watch(() => props.content, debounce(() => {
+    init(props.content);
+  }), {
+    immediate: true
+  })
+});
 </script>
 
 <template>
@@ -91,12 +87,12 @@ export default {
   opacity: 1;
   cursor: auto;
 }
-::v-deep .vditor-toolbar{
+::v-deep .vditor-toolbar {
   display: none;
 }
 ::v-deep .vditor-content .vditor-outline {
   width: 200px;
-  border-color: #EBEEF5;
+  border-color: #ebeef5;
   position: sticky;
   top: 120px;
   padding: 1.2rem;
@@ -107,7 +103,7 @@ export default {
 </style>
 <style>
 @media screen and (max-width: 960px) {
-  .vditor-outline{
+  .vditor-outline {
     display: none !important;
   }
 }
