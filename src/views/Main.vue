@@ -87,9 +87,11 @@ function goHome() {
     </div>
 
     <div class="sidebar">
-      <el-menu :default-active="activeMenu" mode="vertical" class="menu">
-        <Menu :menu-items="menus" />
-      </el-menu>
+      <el-scrollbar height="100%">
+        <el-menu :default-active="activeMenu" mode="vertical" class="menu">
+          <Menu :menu-items="menus" />
+        </el-menu>
+      </el-scrollbar>
       <!-- <el-input
           v-show="!loading"
           v-model="searchStr"
