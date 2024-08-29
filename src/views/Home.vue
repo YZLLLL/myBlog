@@ -17,7 +17,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue"
-import { getLatestArtcile } from "../api/article"
+import { getLatestArticle } from "../api/article"
 import ArticleList from "../components/ArticleList.vue"
 import { throttle } from "../utils/index"
 
@@ -29,19 +29,19 @@ const page = ref(1);
 const hasNext = ref(true)
 
 onMounted(() => {
-  getArtciles();
+  getArticles();
   window.addEventListener("scroll", scroll);
 })
 onUnmounted(() => {
   window.removeEventListener("scroll", scroll);
 })
 
-function getArtciles() {
+function getArticles() {
   if (!hasNext.value) {
     return
   }
   loading.value = true;
-  getLatestArtcile({ page: page.value, limit: 10 }).then(({data}) => {
+  getLatestArticle({ page: page.value, limit: 10 }).then(({data}) => {
     articles.value = articles.value.concat(data.articles);
     total.value = data.total;
     hasNext.value = data.total > articles.value.length;
@@ -58,7 +58,7 @@ const scroll = throttle(function(e) {
   // toFixed：把this.scrollTop转换为整数，兼容不同版本浏览器
   var distanceToBottom = document.documentElement.scrollHeight - window.innerHeight - window.pageYOffset;
   if (distanceToBottom < h) {
-    getArtciles();
+    getArticles();
   }
 })
 </script>

@@ -40,7 +40,7 @@ onUnmounted(() => {
   window.removeEventListener("scroll", scroll);
 });
 
-function getArtciles(groupId) {
+function onGetArticles(groupId) {
   if (!hasNext.value) {
     return;
   }
@@ -67,7 +67,7 @@ const scroll = throttle(function (e) {
     window.innerHeight -
     window.pageYOffset;
   if (distanceToBottom < h) {
-    getArtciles(route.params.id);
+    onGetArticles(route.params.id);
   }
 });
 
@@ -79,7 +79,7 @@ watch(
     articles.value = []
     total.value = 0
     hasNext.value = true
-    getArtciles(id);
+    onGetArticles(id);
   },
   { immediate: true }
 );

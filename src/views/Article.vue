@@ -71,7 +71,7 @@ import { useGroupStore } from "../stores/group";
 import { Delete } from "@element-plus/icons-vue";
 import { useUserStore } from "@/stores/user";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { delArtcile } from '@/api/article'
+import { delArticle } from '@/api/article'
 
 const userStroe = useUserStore();
 // 点赞
@@ -152,7 +152,7 @@ const handelDel = () => {
     type: "warning",
   })
     .then(() => {
-      delArtcile({id: route.query.id}).then(() => {
+      delArticle({id: route.query.id}).then(() => {
         ElMessage.success('删除成功')
         router.replace('/')
       })

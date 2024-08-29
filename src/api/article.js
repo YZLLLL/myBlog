@@ -7,6 +7,14 @@ export function getArticle(id) {
   });
 }
 
+export function getArticleList(params) {
+  return request({
+    url: `/article/list`,
+    method: "GET",
+    params
+  });
+}
+
 // 获取热门文章
 // params:{ limit }
 export function getHotArticle(params) {
@@ -19,7 +27,7 @@ export function getHotArticle(params) {
 
 // 获取最新的文章
 // params:{ limit }
-export function getLatestArtcile(params) {
+export function getLatestArticle(params) {
   return request({
     url: `/article/latest`,
     method: "GET",
@@ -56,9 +64,27 @@ export function addArticle(data) {
 }
 
 // 删除文章
-export function delArtcile(data) {
+export function delArticle(data) {
   return request({
     url: `/article/del`,
+    method: "POST",
+    data,
+  });
+}
+
+// 删除文章
+export function showArticle(data) {
+  return request({
+    url: `/article/show`,
+    method: "POST",
+    data,
+  });
+}
+
+// 修改文章
+export function editArticle(data) {
+  return request({
+    url: `/article/edit`,
     method: "POST",
     data,
   });

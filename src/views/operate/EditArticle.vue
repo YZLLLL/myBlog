@@ -1,9 +1,9 @@
 <template>
-  <div style="margin-left: 20px;">
-    <el-button type="text" @click="router.back()">返回上一级</el-button>
-  </div>
-  <div class="add-article">
-    <div class="container">
+  <div class="edit-article">
+    <div>
+      <el-button type="text" @click="router.back()">返回上一级</el-button>
+    </div>
+    <div>
       <el-form
         class="form"
         :rules="rules"
@@ -50,32 +50,54 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="文章内容" prop="content">
-          <UploadArticle v-model="form.content" />
-        </el-form-item>
-        <el-form-item>
-          <div style="display: flex; justify-content: center; width: 100%">
-            <el-button type="primary" @click="handleSubmit">提交</el-button>
-          </div>
-        </el-form-item>
       </el-form>
-      <Editor
-        class="editor"
-        :content="form.content.trim().length ? form.content : '请选择文件'"
-      />
+    </div>
+    <Editor
+      :content="form.content"
+      mode="sv"
+      ref="editorRef"
+      :disabled="false"
+      :show-toolbar="true"
+    />
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 24px;
+      "
+    >
+      <el-button type="primary" @click="handleSubmit">提交</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import Editor from "@/components/Editor.vue";
-import UploadArticle from "./UploadArticle.vue";
+import { ref } from "vue";
 import { getGroups } from "@/api/group";
+import { editArticle, getArticle } from "@/api/article";
 import processMenu from "@/utils/processMenu";
-import { addArticle } from '@/api/article'
-import router from "@/router";
 import { ElMessage } from "element-plus";
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
+
+const getArticleDetail = () => {
+  getArticle(route.params.id).then((res: any) => {
+    if (res.code === 200) {
+      const { group_id, content, introduction, tags, title } = res.data.article;
+      form.value = {
+        groupId: group_id,
+        content,
+        introduction,
+        tags: tags.split(","),
+        title,
+      };
+    }
+  });
+};
+getArticleDetail();
 
 const tagsOptions = [
   {
@@ -92,8 +114,19 @@ const tagsOptions = [
   },
 ];
 
+const groups = ref<any[]>([]);
+const props = {
+  expandTrigger: "hover",
+  emitPath: false,
+  value: "id",
+  label: "title",
+};
+getGroups().then(({ data }: { data: any[] }) => {
+  groups.value = processMenu(data).sort((a: any, b: any) => a.id - b.id);
+});
+
 const form = ref({
-  groupId: '',
+  groupId: "",
   title: "",
   introduction: "",
   content: "",
@@ -110,6 +143,7 @@ const rules = {
   tags: [{ required: true, message: "请选择文章标签", trigger: "change" }],
 };
 
+const editorRef = ref()
 const formRef = ref();
 const handleSubmit = () => {
   formRef.value?.validate((vaild: boolean) => {
@@ -118,78 +152,32 @@ const handleSubmit = () => {
     }
   });
 };
-const loading = ref(false)
+const loading = ref(false);
 const submitForm = () => {
-  loading.value = true
-  addArticle({
+  loading.value = true;
+  const content = editorRef.value.getValue()
+  editArticle({
+    id: route.params.id,
     ...form.value,
-    tags: form.value.tags.join(',')
-  }).then((res: any) => {
-    ElMessage.success('添加成功')
-    router.back()
-  }).finally(() => {
-    loading.value = false
+    content,
+    tags: form.value.tags.join(","),
   })
+    .then((res: any) => {
+      if (res.code !== 200) return
+      ElMessage.success("编辑成功");
+      router.back();
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
-
-const groups = ref<any[]>([])
-const props = {
-  expandTrigger: 'hover',
-  emitPath: false,
-  value: 'id',
-  label: 'title'
-}
-getGroups().then(({ data }: { data: any[] }) => {
-  groups.value = processMenu(data).sort((a: any, b: any) => a.id - b.id);
-});
 </script>
 
 <style lang="scss" scoped>
-.add-article {
-  display: flex;
-  justify-content: center;
-  --form-width: 400px;
-  .container {
-    display: flex;
-    max-width: 1200px;
-    width: 100%;
-    margin: 20px;
-    padding-left: var(--form-width);
-    .form {
-      padding: 20px;
-      position: fixed;
-      left: 20px;
-      top: 32px;
-      box-sizing: border-box;
-      border-radius: 10px;
-      background-color: var(--el-fill-color-light);
-      width: var(--form-width);
-    }
-    .editor {
-      flex-grow: 1;
-      min-width: 400px;
-    }
-    .placeholder {
-      padding: 30px;
-      color: var(--el-text-color-placeholder);
-    }
+.edit-article {
+  padding: 12px;
+  .form {
+    width: 600px;
   }
-}
-@media (max-width: 750px) {
-  .container {
-    flex-direction: column;
-    --form-width: calc(100%);
-    padding-left: 0 !important;
-    .form {
-      position: static !important;
-      margin-bottom: 20px;
-    }
-  }
-}
-</style>
-
-<style>
-#vditor {
-  min-height: 0 !important;
 }
 </style>

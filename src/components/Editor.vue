@@ -6,9 +6,16 @@ import "vditor/dist/index.css";
 import { ref, onMounted, watch } from "vue";
 import { debounce } from '@/utils/index'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   content: string;
-}>();
+  mode?: 'ir' | 'wysiwyg' | 'sv',
+  disabled?: boolean;
+  showToolbar?: boolean;
+}>(), {
+  mode: 'ir',
+  disabled: true,
+  showToolbar: false
+})
 const vditor = ref();
 const loading = ref(false);
 
@@ -16,13 +23,12 @@ const loading = ref(false);
 const init = (content: string) => {
   loading.value = true;
   vditor.value = new Vditor("vditor", {
-    toolbar: [],
     outline: {
       enable: true,
       position: "right",
     },
     toolbarConfig: {
-      hide: true,
+      hide: !props.showToolbar,
       pin: true,
     },
     cache: {
@@ -32,10 +38,10 @@ const init = (content: string) => {
     // cdn: import.meta.env.VITE_APP_PUBLIC_JS,
     height: "100%",
     width: "100%",
-    mode: "ir",
+    mode: props.mode,
     value: content,
-    after: () => {
-      vditor.value.disabled();
+    after: function() {
+      props.disabled && vditor.value.disabled();
       loading.value = false;
       const outlines = document.querySelectorAll<HTMLDivElement>(
         ".vditor-outline__content span[data-target-id]"
@@ -63,6 +69,11 @@ onMounted(() => {
     immediate: true
   })
 });
+
+const getValue = () => {
+  return vditor.value.getValue();
+}
+defineExpose({ getValue })
 </script>
 
 <template>

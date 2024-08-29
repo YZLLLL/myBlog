@@ -1,22 +1,22 @@
 <template>
   <div class="operate">
     <div class="operate-container">
-      <el-button
-        type="primary"
-        :icon="Plus"
-        @click="$router.push('/operate/addArticle')"
-      >
+      <el-button type="primary" @click="$router.push('/operate/addArticle')">
         新增文章
       </el-button>
-      <el-button type="primary" link @click="$router.push('/home')"
-        >返回首页</el-button
-      >
+      <span></span>
+      <el-button type="primary" @click="$router.push('/operate/articleList')">
+        文章列表
+      </el-button>
+      <span></span>
+      <el-button type="primary" link @click="$router.push('/home')">
+        返回首页
+      </el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Plus } from "@element-plus/icons-vue";
 </script>
 
 <style lang="scss" scoped>

@@ -7,6 +7,14 @@ const System: RouteRecordRaw[] = [{
     path: 'addArticle',
     name: 'addArticle',
     component: () => import('@/views/operate/AddArticle.vue'),
+  }, {
+    path: 'articleList',
+    name: 'articleList',
+    component: () => import('@/views/operate/ArticleList.vue'),
+  }, {
+    path: 'editArticle/:id',
+    name: 'editArticle',
+    component: () => import('@/views/operate/EditArticle.vue'),
   }]
 },]
 
